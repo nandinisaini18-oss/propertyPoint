@@ -1,6 +1,5 @@
 import propertyModel from "../models/property.model.js";
 import { uploadFile } from "../services/imagekit.js";
-import { ImageKit } from "@imagekit/nodejs/client.js";
 
 export const createProperty = async (req, res) => {
     try {
