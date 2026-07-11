@@ -5,6 +5,18 @@ const adminAPI = axios.create({
     withCredentials: true,
 });
 
+// Dashboard
+export const dashboardStatsAPI = async () => {
+    const { data } = await adminAPI.get("/dashboard");
+    return data;
+};
+
+// Properties
+export const getAllPropertiesAPI = async () => {
+    const { data } = await adminAPI.get("/properties");
+    return data;
+};
+
 export const getPendingPropertiesAPI = async () => {
     const { data } = await adminAPI.get("/properties/pending");
     return data;
@@ -20,8 +32,19 @@ export const rejectPropertyAPI = async (id) => {
     return data;
 };
 
+export const markPropertyAsSoldAPI = async (id) => {
+    const { data } = await adminAPI.patch(`/properties/${id}/sold`);
+    return data;
+};
+
+// Inquiries
 export const getAllInquiriesAPI = async () => {
     const { data } = await adminAPI.get("/inquiries");
+    return data;
+};
+
+export const getInquiryByIdAPI = async (id) => {
+    const { data } = await adminAPI.get(`/inquiries/${id}`);
     return data;
 };
 
