@@ -306,14 +306,14 @@ export const testimonials = [
     city: 'Mumbai',
     initials: 'RM',
     rating: 5,
-    review: 'As a property owner, listing my villa on Property Point was seamless. Got serious buyers within days. Highly professional platform.',
+    review: 'As a property owner, listing my villa on 360Views was seamless. Got serious buyers within days. Highly professional platform.',
   },
   {
     name: 'Ananya Verma',
     city: 'Pune',
     initials: 'AV',
     rating: 5,
-    review: 'Compared to other platforms, Property Point is a breath of fresh air. Clean interface, genuine listings, and zero spam calls.',
+    review: 'Compared to other platforms, 360Views is a breath of fresh air. Clean interface, genuine listings, and zero spam calls.',
   },
   {
     name: 'Kiran Reddy',

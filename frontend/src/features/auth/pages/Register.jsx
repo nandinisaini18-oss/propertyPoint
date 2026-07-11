@@ -148,7 +148,7 @@ const Register = () => {
       <div className="auth-card__header">
         <h2 className="auth-card__title">Create your account</h2>
         <p className="auth-card__subtitle">
-          Join thousands of buyers and owners on Property Point.
+          Join thousands of buyers and owners on 360Views.
         </p>
       </div>
 

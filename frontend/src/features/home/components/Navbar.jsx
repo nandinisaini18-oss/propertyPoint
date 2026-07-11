@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router';
+import { FaRegHeart } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 // SVG icons
 const IconHome = () => (
@@ -24,12 +26,12 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { label: 'Home',    href: '/' },
-    { label: 'Buy',     href: '#featured' },
-    { label: 'Rent',    href: '#latest' },
-    { label: 'Explore', href: '#cities' },
-    { label: 'Contact', href: '#footer' },
-  ];
+  { label: "Home", to: "/" },
+  { label: "Buy", href: "/properties" },
+  { label: "Sell", to: "/sell-property" },
+  { label: "Location", href: "/locations" },
+  { label: "Contact", to: "/contact" },
+];
 
   return (
     <>
@@ -40,22 +42,31 @@ const Navbar = () => {
             <div className="lp-navbar__logo-icon">
               <IconHome />
             </div>
-            <span className="lp-navbar__logo-text">Property Point</span>
+            <span className="lp-navbar__logo-text">360Views</span>
           </Link>
 
           {/* Center Links */}
           <ul className="lp-navbar__links">
-            {navLinks.map((l) => (
-              <li key={l.label}>
-                <a href={l.href}>{l.label}</a>
+            {navLinks.map((link) => (
+              <li key={link.label}>
+                {link.to ? (
+                  <Link to={link.to}>{link.label}</Link>
+                ) : (
+                  <a href={link.href}>{link.label}</a>
+                )}
               </li>
             ))}
           </ul>
 
           {/* Right Actions */}
           <div className="lp-navbar__actions">
-            <Link to="/login" className="lp-btn lp-btn--outline">Login</Link>
-            <Link to="/register" className="lp-btn lp-btn--primary">Register</Link>
+            <Link to="/favorites" className="lp-navbar__favorite">
+              <FaRegHeart />
+            </Link>
+
+            <Link to="/login" className="lp-btn lp-btn--primary">
+              Login
+            </Link>
           </div>
 
           {/* Hamburger */}
@@ -72,14 +83,28 @@ const Navbar = () => {
 
       {/* Mobile Drawer */}
       <div className={`lp-nav-drawer${menuOpen ? ' open' : ''}`}>
-        {navLinks.map((l) => (
-          <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)}>
-            {l.label}
-          </a>
-        ))}
+        {navLinks.map((link) =>
+            link.to ? (
+              <Link
+                key={link.label}
+                to={link.to}
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ) : (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={() => setMenuOpen(false)}
+              >
+                {link.label}
+              </a>
+            )
+          )}
         <div className="lp-nav-drawer__actions">
           <Link to="/login"    className="lp-btn lp-btn--outline" onClick={() => setMenuOpen(false)}>Login</Link>
-          <Link to="/register" className="lp-btn lp-btn--primary" onClick={() => setMenuOpen(false)}>Register</Link>
+          {/* <Link to="/register" className="lp-btn lp-btn--primary" onClick={() => setMenuOpen(false)}>Register</Link> */}
         </div>
       </div>
     </>

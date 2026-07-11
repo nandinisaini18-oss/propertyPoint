@@ -81,7 +81,7 @@ export const Logo = () => (
       </svg>
     </div>
     <span className="auth-logo__text">
-      Property <span>Point</span>
+      360Views <span></span>
     </span>
   </div>
 );

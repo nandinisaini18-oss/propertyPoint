@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../features/auth/state/authSlice"
-import propertyReducer from "../features/property/propertySlice";
-import inquiryReducer from "../features/inquiry/inquirySlice";
+import propertyReducer from "../features/property/state/propertySlice"
+import inquiryReducer from "../features/inquiry/state/inquirySlice"
 
 export const store = configureStore({
     reducer: {
