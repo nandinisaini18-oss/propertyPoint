@@ -1,21 +1,29 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from "react-redux";
+import { useAuth } from "../../auth/hook/useAuth";
 import Navbar from '../../home/components/Navbar';
 import FavoriteCard from '../components/FavoriteCard';
 import EmptyFavorites from '../components/EmptyFavorites';
 import RecommendedProperties from '../components/RecommendedProperties';
-import { favoriteProperties, recommendedProperties } from '../data/favoritesData';
+import { recommendedProperties } from '../data/favoritesData';
 import './Favorites.css';
 
 const Favorites = () => {
-  const [favorites, setFavorites] = useState(favoriteProperties);
+  const favorites = useSelector(state => state.auth.favorites);
+
+  const {
+      handleRemoveFavorite,
+      handleGetFavorites
+  } = useAuth();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+    handleGetFavorites();
+}, []);
 
-  const handleRemove = (id) => {
-    setFavorites(prev => prev.filter(property => property.id !== id));
-  };
+  const handleRemove = async (id) => {
+    await handleRemoveFavorite(id);
+};
 
   return (
     <div className="favorites">
@@ -40,7 +48,7 @@ const Favorites = () => {
             <div className="favorites__grid">
               {favorites.map(property => (
                 <FavoriteCard 
-                  key={property.id} 
+                  key={property._id} 
                   property={property} 
                   onRemove={handleRemove}
                 />

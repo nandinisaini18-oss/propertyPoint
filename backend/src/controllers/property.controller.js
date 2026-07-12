@@ -238,3 +238,70 @@ export const deleteProperty = async (req, res) => {
     }
 
 };
+
+export const getLocations = async (req, res) => {
+    try {
+
+        const locations = await propertyModel.aggregate([
+            {
+                $match: {
+                    approvalStatus: "Approved"
+                }
+            },
+            {
+                $group: {
+                    _id: "$city",
+
+                    propertyCount: {
+                        $sum: 1
+                    },
+
+                    startPrice: {
+                        $min: "$price"
+                    },
+
+                    avgPrice: {
+                        $avg: "$price"
+                    },
+
+                    image: {
+                        $first: {
+                            $arrayElemAt: ["$propertyImages", 0]
+                        }
+                    }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    city: "$_id",
+                    propertyCount: 1,
+                    startPrice: 1,
+                    avgPrice: {
+                        $round: ["$avgPrice", 0]
+                    },
+                    image: 1
+                }
+            },
+            {
+                $sort: {
+                    propertyCount: -1
+                }
+            }
+        ]);
+
+        return res.status(200).json({
+            success: true,
+            locations
+        });
+
+    } catch (err) {
+
+        return res.status(500).json({
+            success: false,
+            message: err.message
+        });
+
+    }
+};
+

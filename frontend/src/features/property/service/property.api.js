@@ -27,3 +27,6 @@ export const updatePropertyApi = (id, data) =>
 
 export const deletePropertyApi = (id) =>
     API.delete(`/${id}`);
+
+export const getLocationsApi = () =>
+    API.get("/locations");

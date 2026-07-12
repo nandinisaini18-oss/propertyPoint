@@ -209,6 +209,7 @@ const Properties = () => {
                   <PropertyCard key={property._id} property={property} />
                 ))}
               </div>
+              console.log(currentData);
               <Pagination 
                 currentPage={currentPage}
                 totalPages={totalPages}

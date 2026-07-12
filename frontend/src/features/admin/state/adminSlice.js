@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { dummyProperties } from "../../property/data/dummyProperties";
+// import { dummyProperties } from "../../property/data/dummyProperties";
 import { pendingProperties as mockPending, recentInquiries as mockInquiries } from "../data/dummyData";
 
 // Normalize dummy properties for admin (add seller info, approvalStatus, dates)

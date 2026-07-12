@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { Link } from 'react-router';
 import Navbar from '../../home/components/Navbar';
 import CityCard from '../components/CityCard';
@@ -6,13 +5,40 @@ import LocationSearch from '../components/LocationSearch';
 import FeaturedLocalities from '../components/FeaturedLocalities';
 import LocationStats from '../components/LocationStats';
 import { popularCities, whyBuyFeatures } from '../data/locationsData';
+import { useState, useEffect } from "react";
+import useProperty from '../../property/hook/useProperty';
 import './Locations.css';
 
 const Locations = () => {
+  const { handleGetLocations } = useProperty();
+
+  const [cities, setCities] = useState([]);
   // Scroll to top on mount
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+
+    async function fetchLocations() {
+
+        try {
+
+            const data = await handleGetLocations();
+            console.log("Locations API:", data);
+            console.log(data);
+            setCities(data);
+            if (data) {
+                setCities(data);
+            }
+
+        } catch (err) {
+
+            console.log(err);
+
+        }
+
+    }
+
+    fetchLocations();
+
+}, []);
 
   return (
     <div className="locations">
@@ -44,10 +70,23 @@ const Locations = () => {
         </div>
         
         <div className="locations__grid">
-          {popularCities.map((city) => (
-            <CityCard key={city.id} city={city} />
-          ))}
-        </div>
+
+    {cities.length > 0 ? (
+
+        cities.map(city => (
+            <CityCard
+                key={city.city}
+                city={city}
+            />
+        ))
+
+    ) : (
+
+        <h3>No Locations Found</h3>
+
+    )}
+
+</div>
       </section>
 
       {/* Featured Localities */}

@@ -1,8 +1,24 @@
 import { useDispatch } from "react-redux";
 
-import { setError , setLoading , setUser , logout } from "../state/authSlice";
+import {
+    setError,
+    setLoading,
+    setUser,
+    logout,
+    setFavorites,
+    addFavorite,
+    removeFavorite
+} from "../state/authSlice";
 
-import { registerAPI , loginAPI , getMeAPI , logoutAPI } from "../service/auth.api";
+import {
+    registerAPI,
+    loginAPI,
+    getMeAPI,
+    logoutAPI,
+    addFavoriteApi,
+    removeFavoriteApi,
+    getFavoritesApi
+} from "../service/auth.api";
 
 export function useAuth() {
 
@@ -47,6 +63,8 @@ export function useAuth() {
 
             dispatch(setUser(res.data.user));
 
+            await handleGetFavorites();
+
             return res.data;
 
         } catch (err) {
@@ -76,6 +94,8 @@ export function useAuth() {
 
             dispatch(setUser(res.data.user));
 
+            await handleGetFavorites();
+
             return res.data;
 
         } catch (err) {
@@ -102,11 +122,64 @@ export function useAuth() {
         }
     }
 
+    async function handleGetFavorites() {
+
+    try {
+
+        const res = await getFavoritesApi();
+
+        dispatch(setFavorites(res.data.favorites));
+
+        return res.data.favorites;
+
+    } catch (err) {
+
+        console.log(err);
+
+    }
+
+}
+
+async function handleAddFavorite(id) {
+
+    try {
+
+        await addFavoriteApi(id);
+
+        const res = await getFavoritesApi();
+
+        dispatch(setFavorites(res.data.favorites));
+
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+async function handleRemoveFavorite(id){
+
+    try{
+
+        await removeFavoriteApi(id);
+
+        const res = await getFavoritesApi();
+
+        dispatch(setFavorites(res.data.favorites));
+
+    }catch(err){
+        console.log(err);
+    }
+}
+
     return {
 
-        handleRegister,
-        handleLogin,
-        handleGetMe,
-        handleLogout,
-    };
+    handleRegister,
+    handleLogin,
+    handleGetMe,
+    handleLogout,
+
+    handleGetFavorites,
+    handleAddFavorite,
+    handleRemoveFavorite,
+
+};
 }

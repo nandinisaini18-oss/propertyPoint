@@ -14,6 +14,7 @@ import {
     getMyPropertiesApi,
     updatePropertyApi,
     deletePropertyApi,
+    getLocationsApi
 } from "../service/property.api"
 
 export default function useProperty() {
@@ -152,6 +153,14 @@ export default function useProperty() {
 
     };
 
+    const handleGetLocations = async () => {
+
+        const { data } = await getLocationsApi();
+
+        return data.locations;
+
+    };
+
     return {
 
         handleGetAllProperties,
@@ -160,6 +169,6 @@ export default function useProperty() {
         handleGetMyProperties,
         handleUpdateProperty,
         handleDeleteProperty,
-
+        handleGetLocations
     };
 }

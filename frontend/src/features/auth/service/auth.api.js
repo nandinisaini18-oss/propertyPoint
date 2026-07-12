@@ -16,3 +16,12 @@ export const getMeAPI = () =>
 
 export const logoutAPI = () =>
     authAPI.post("/logout");
+
+export const addFavoriteApi = (id) =>
+    authAPI.post(`/favorites/${id}`);
+
+export const removeFavoriteApi = (id) =>
+    authAPI.delete(`/favorites/${id}`);
+
+export const getFavoritesApi = () =>
+    authAPI.get("/favorites");

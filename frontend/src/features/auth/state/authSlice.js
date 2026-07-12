@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     user: null,
+    favorites: [],
     loading: false,
     error: null,
 };
@@ -27,6 +28,19 @@ const authSlice = createSlice({
             state.user = null;
             state.error = null;
         },
+        setFavorites(state, action) {
+            state.favorites = action.payload;
+        },
+
+        addFavorite(state, action) {
+            state.favorites.push(action.payload);
+        },
+
+        removeFavorite(state, action) {
+            state.favorites = state.favorites.filter(
+                fav => fav._id !== action.payload
+            );
+        },
     },
 });
 
@@ -35,6 +49,9 @@ export const {
     setUser,
     setError,
     logout,
+    setFavorites,
+    addFavorite,
+    removeFavorite
 } = authSlice.actions;
 
 export default authSlice.reducer;

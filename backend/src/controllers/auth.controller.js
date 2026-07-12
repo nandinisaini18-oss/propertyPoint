@@ -1,6 +1,7 @@
 import userModel from "../models/user.model.js"
 import jwt from "jsonwebtoken"
 import { config } from "../config/config.js"
+import propertyModel from "../models/property.model.js"
 
 async function createToken(res , user , message){
     const token = jwt.sign({
@@ -143,3 +144,50 @@ export async function logout(req , res){
         success : true
     })
 }
+
+
+export const addFavorite = async (req, res) => {
+
+    const user = await userModel.findById(req.user.id);
+
+    if (!user.favorites.includes(req.params.propertyId)) {
+        user.favorites.push(req.params.propertyId);
+        await user.save();
+    }
+
+    const property = await propertyModel.findById(req.params.propertyId);
+
+    res.json({
+        success: true,
+        property
+    });
+};
+
+export const removeFavorite = async (req, res) => {
+
+    await userModel.findByIdAndUpdate(
+        req.user._id,
+        {
+            $pull: {
+                favorites: req.params.propertyId
+            }
+        }
+    );
+
+    res.json({
+        success: true
+    });
+};
+
+
+export const getFavorites = async (req, res) => {
+
+    const user = await userModel
+        .findById(req.user._id)
+        .populate("favorites");
+
+    res.json({
+        success: true,
+        favorites: user.favorites
+    });
+};

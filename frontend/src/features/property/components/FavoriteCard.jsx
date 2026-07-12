@@ -6,7 +6,7 @@ const FavoriteCard = ({ property, onRemove }) => {
     <div className="favorite-card">
       <div className="favorite-card__image-wrapper">
         <img 
-          src={property.image} 
+          src={property.propertyImages?.[0]}
           alt={property.title} 
           className="favorite-card__image"
         />
@@ -15,7 +15,7 @@ const FavoriteCard = ({ property, onRemove }) => {
         </div>
         <button 
           className="favorite-card__heart" 
-          onClick={() => onRemove(property.id)}
+          onClick={() => onRemove(property._id)}
           aria-label="Remove from favorites"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -33,7 +33,7 @@ const FavoriteCard = ({ property, onRemove }) => {
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
             <circle cx="12" cy="10" r="3"></circle>
           </svg>
-          {property.location}
+          `${property.city}, ${property.state}`
         </div>
         
         <div className="favorite-card__details">

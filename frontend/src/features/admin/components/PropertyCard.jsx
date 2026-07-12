@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Bed, Bath, Maximize2, MapPin, Tag, ChevronLeft, ChevronRight, User, Mail, Phone, Eye } from "lucide-react";
 import StatusBadge from "./StatusBadge";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { useAuth } from "../../auth/hook/useAuth";
+import './PropertyCard.css'
 
 export default function PropertyCard({ property, onApprove, onReject, onView, showGallery = false }) {
+  const favorites = useSelector(state => state.auth.favorites);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const images = property.images || [property.image];
+  const images = property.propertyImages || [];
   const hasMultipleImages = images.length > 1;
 
   const nextImage = (e) => {
@@ -17,7 +21,43 @@ export default function PropertyCard({ property, onApprove, onReject, onView, sh
     e.stopPropagation();
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
   };
+  const toggleFavorite = async (id) => {
+    try {
 
+        if (isFavorite(id)) {
+
+            await handleRemoveFavorite(id);
+
+            setFavorites(prev =>
+                prev.filter(fav => fav._id !== id)
+            );
+
+        } else {
+
+            await handleAddFavorite(id);
+
+            setFavorites(prev => [
+                ...prev,
+                property
+            ]);
+
+        }
+
+    } catch (err) {
+
+        console.log(err);
+
+    }
+};
+
+const isFavorite = (id) => {
+    return favorites.some(fav => fav._id === id);
+};
+
+console.log(
+    property._id,
+    isFavorite(property._id)
+);
   return (
     <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden flex flex-col hover:shadow-md transition-all duration-300 group">
       {/* Photo / Photo Gallery Section */}
@@ -43,6 +83,14 @@ export default function PropertyCard({ property, onApprove, onReject, onView, sh
             >
               <ChevronRight className="w-4.5 h-4.5" />
             </button>
+            <button
+                className="property-card__favorite"
+                onClick={() => toggleFavorite(property._id)}
+            >
+                {isFavorite(property._id)
+                    ? <FaHeart color="red" />
+                    : <FaRegHeart />}
+            </button>
             <div className="absolute bottom-3 right-3 bg-black/65 backdrop-blur-xs text-white text-[10px] font-bold px-2 py-0.5 rounded-full z-10">
               {currentImageIndex + 1} / {images.length}
             </div>
@@ -57,7 +105,7 @@ export default function PropertyCard({ property, onApprove, onReject, onView, sh
         {/* Shadow Overlay */}
         <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-black/55 to-transparent pointer-events-none" />
         <p className="absolute bottom-3 left-3.5 text-white text-base font-extrabold tracking-tight">
-          {property.price}
+         ₹ {property.price?.toLocaleString("en-IN")}
         </p>
       </div>
 

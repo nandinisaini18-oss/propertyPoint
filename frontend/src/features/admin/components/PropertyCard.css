@@ -1,0 +1,25 @@
+.property-card__favorite{
+    position:absolute;
+    top:14px;
+    right:14px;
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:50%;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(0,0,0,.15);
+    transition:.2s;
+}
+
+.property-card__favorite:hover{
+    transform:scale(1.08);
+}
+
+.property-card__favorite svg{
+    color:#ef4444;
+    font-size:18px;
+}

@@ -1,14 +1,66 @@
 import React from 'react';
+import { useSelector } from "react-redux";
+import { useAuth } from "../../auth/hook/useAuth";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import "./PropertyCard.css"
 
 const PropertyCard = ({ property }) => {
+  const favorites = useSelector(
+  state => state.auth.favorites || []
+);
+console.log(useSelector(state => state.auth));
+console.log(property);
+
+const {
+    handleAddFavorite,
+    handleRemoveFavorite
+} = useAuth();
+console.log("favorites:", favorites);
+console.log("type:", typeof favorites);
+console.log("isArray:", Array.isArray(favorites));
+
+const isFavorite = (id) => {
+    console.log("Checking favorites:", favorites);
+
+    return favorites.some((fav, index) => {
+        console.log(index, fav);
+        return fav?._id === id;
+    });
+};
+const toggleFavorite = async (id) => {
+
+    if (isFavorite(id)) {
+
+        await handleRemoveFavorite(id);
+
+    } else {
+
+        await handleAddFavorite(id);
+
+    }
+
+};
   return (
     <div className="property-card">
       <div className="property-card__image-wrapper">
-        <img 
+       <img
           src={property.propertyImages?.[0]}
           alt={property.title}
           className="property-card__image"
         />
+
+<button
+  className="property-card__favorite"
+  onClick={() => toggleFavorite(property._id)}
+>
+  {isFavorite(property._id) ? (
+    <FaHeart color="red" size={22} />
+  ) : (
+    <FaRegHeart color="#444" size={22} />
+  )}
+</button>
+
+
         <div className="property-card__badges">
           <span className="property-card__badge">{property.status}</span>
           <span className="property-card__badge">{property.category}</span>
