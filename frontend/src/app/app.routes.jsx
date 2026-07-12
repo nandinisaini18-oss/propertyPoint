@@ -10,6 +10,10 @@ import propertyDetails from "../features/property/pages/PropertyDetails";
 import Locations from "../features/locations/pages/Locations";
 import Favorites from "../features/property/pages/Favorites";
 import Contact from "../features/contact/pages/Contact";
+import Dashboard from "../features/admin/pages/Dasboard";
+import AdminProperties from "../features/admin/pages/Properties";
+import PendingRequests from "../features/admin/pages/PendingRequests";
+import PurchaseRequests from "../features/admin/pages/PurchaseRequests";
 
 const router = createBrowserRouter([
     {
@@ -62,6 +66,22 @@ const router = createBrowserRouter([
     {
         path: "/contact",
         element: <Contact />,
+    },
+    {
+        path: "/admin/dashboard",
+        element: <Dashboard />,
+    },
+    {
+        path : "/admin/properties",
+        element : <AdminProperties />
+    },
+    {
+        path: "/admin/pending",
+        element: <PendingRequests />
+    },
+    {
+        path: "/admin/purchase-requests",
+        element: <PurchaseRequests />
     }
 ]);
 

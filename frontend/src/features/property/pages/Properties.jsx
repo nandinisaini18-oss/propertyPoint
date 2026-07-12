@@ -5,7 +5,7 @@ import PropertyFilters from '../components/PropertyFilters';
 import SearchBar from '../components/SearchBar';
 import Pagination from '../components/Pagination';
 import SortDropdown from '../components/SortDropdown';
-import { dummyProperties } from '../data/dummyProperties';
+import useProperty from "../hook/useProperty";
 import './Properties.css';
 
 const ITEMS_PER_PAGE = 6;
@@ -21,8 +21,25 @@ const INITIAL_FILTERS = {
 };
 
 const Properties = () => {
-  const [properties, setProperties] = useState(dummyProperties);
-  const [filteredData, setFilteredData] = useState(dummyProperties);
+  const { handleGetAllProperties } = useProperty();
+  const [properties, setProperties] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+
+  useEffect(() => {
+    const fetchProperties = async () => {
+        try {
+            const data = await handleGetAllProperties();
+
+            if (data.success) {
+                setProperties(data.properties);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    fetchProperties();
+}, []);
   
   // Search state
   const [searchParams, setSearchParams] = useState({
@@ -52,7 +69,7 @@ const Properties = () => {
       result = result.filter(p => p.category === searchParams.category);
     }
     if (searchParams.budget) {
-      result = result.filter(p => p.priceValue <= Number(searchParams.budget));
+      result = result.filter(p => p.price <= Number(searchParams.budget));
     }
 
     // 2. Sidebar Filters
@@ -60,10 +77,10 @@ const Properties = () => {
       result = result.filter(p => activeFilters.categories.includes(p.category));
     }
     if (activeFilters.minPrice) {
-      result = result.filter(p => p.priceValue >= Number(activeFilters.minPrice));
+      result = result.filter(p => p.price >= Number(activeFilters.minPrice));
     }
     if (activeFilters.maxPrice) {
-      result = result.filter(p => p.priceValue <= Number(activeFilters.maxPrice));
+      result = result.filter(p => p.price <= Number(activeFilters.maxPrice));
     }
     if (activeFilters.minArea) {
       result = result.filter(p => p.area >= Number(activeFilters.minArea));
@@ -82,19 +99,20 @@ const Properties = () => {
 
     // 3. Sorting
     switch (sortBy) {
-      case 'price-asc':
-        result.sort((a, b) => a.priceValue - b.priceValue);
+      case "price-asc":
+        result.sort((a, b) => a.price - b.price);
         break;
-      case 'price-desc':
-        result.sort((a, b) => b.priceValue - a.priceValue);
+
+    case "price-desc":
+        result.sort((a, b) => b.price - a.price);
         break;
-      case 'area':
+
+    case "area":
         result.sort((a, b) => b.area - a.area);
         break;
-      case 'newest':
-      default:
-        result.sort((a, b) => new Date(b.dateAdded) - new Date(a.dateAdded));
-        break;
+
+    default:
+        result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
 
     setFilteredData(result);
@@ -188,7 +206,7 @@ const Properties = () => {
             <>
               <div className="properties__grid">
                 {currentData.map(property => (
-                  <PropertyCard key={property.id} property={property} />
+                  <PropertyCard key={property._id} property={property} />
                 ))}
               </div>
               <Pagination 

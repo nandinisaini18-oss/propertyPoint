@@ -5,7 +5,7 @@ import {
     setProperties,
     setProperty,
     setMyProperties,
-} from "../features/property/propertySlice";
+} from "../state/propertySlice"
 
 import {
     getAllPropertiesApi,
@@ -14,14 +14,13 @@ import {
     getMyPropertiesApi,
     updatePropertyApi,
     deletePropertyApi,
-} from "../api/property.api";
+} from "../service/property.api"
 
 export default function useProperty() {
 
     const dispatch = useDispatch();
 
     const handleGetAllProperties = async () => {
-
         try {
 
             dispatch(setLoading(true));
@@ -30,16 +29,17 @@ export default function useProperty() {
 
             dispatch(setProperties(data.properties));
 
+            return data;
+
         } catch (err) {
 
-            console.log(err);
+            throw err;
 
         } finally {
 
             dispatch(setLoading(false));
 
         }
-
     };
 
     const handleGetPropertyById = async (id) => {

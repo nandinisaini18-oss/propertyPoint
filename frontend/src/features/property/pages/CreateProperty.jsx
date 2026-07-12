@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import './CreateProperty.css';
+import useProperty from "../hook/useProperty"
 
 const AMENITIES_LIST = [
   'Parking',
@@ -14,6 +15,7 @@ const AMENITIES_LIST = [
   "Children's Play Area"
 ];
 const CreateProperty = () => {
+  const { handleCreateProperty } = useProperty();
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -108,18 +110,45 @@ const CreateProperty = () => {
       images: prev.images.filter((_, index) => index !== indexToRemove)
     }));
   };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validate()) {
-      return;
-    }
-    setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      // Reset or redirect would happen here
-      console.log('Form submitted:', form);
-    }, 2000);
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      if (!validate()) return;
+
+      setIsSubmitting(true);
+
+      try {
+
+          const formData = new FormData();
+
+          formData.append("title", form.title);
+          formData.append("description", form.description);
+          formData.append("category", form.category);
+          formData.append("address", form.address);
+          formData.append("city", form.city);
+          formData.append("state", form.state);
+          formData.append("price", form.price);
+          formData.append("area", form.area);
+          formData.append("bedrooms", form.bedrooms);
+          formData.append("bathrooms", form.bathrooms);
+
+          // amenities
+          formData.append("amenities", form.amenities.join(","));
+
+          // images
+          form.images.forEach((image) => {
+              formData.append("propertyImages", image);
+          });
+
+          const res = await handleCreateProperty(formData);
+
+          console.log(res);
+
+      } catch (err) {
+          console.log(err);
+      } finally {
+          setIsSubmitting(false);
+      }
   };
   const getInputClass = (fieldName) => {
     if (errors[fieldName]) return 'cp-input error';

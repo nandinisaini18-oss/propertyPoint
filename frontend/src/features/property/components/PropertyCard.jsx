@@ -5,8 +5,8 @@ const PropertyCard = ({ property }) => {
     <div className="property-card">
       <div className="property-card__image-wrapper">
         <img 
-          src={property.image} 
-          alt={property.title} 
+          src={property.propertyImages?.[0]}
+          alt={property.title}
           className="property-card__image"
         />
         <div className="property-card__badges">

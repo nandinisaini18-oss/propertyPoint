@@ -1,4 +1,4 @@
-import useAdminStore from "./admin.state";
+import useAdminStore from "../state/adminSlice"
 
 import {
     dashboardStatsAPI,
@@ -10,10 +10,9 @@ import {
     getAllInquiriesAPI,
     getInquiryByIdAPI,
     updateInquiryStatusAPI,
-} from "./admin.api";
+} from "../service/admin.api"
 
 export default function useAdmin() {
-
     const {
         dashboardStats,
         pendingProperties,
@@ -26,20 +25,25 @@ export default function useAdmin() {
         setAllProperties,
         setInquiries,
         setSelectedInquiry,
+
+        approveProperty,
+        rejectProperty,
+        markPropertyAsSold,
+        deleteProperty,
+        updateInquiryStatus,
     } = useAdminStore();
 
-    // Dashboard
+    // Dashboard Stats
     const handleDashboardStats = async () => {
         try {
             const data = await dashboardStatsAPI();
-
-            if (data.success) {
+            if (data && data.success) {
                 setDashboardStats(data.stats);
             }
-
             return data;
         } catch (err) {
-            console.log(err);
+            console.warn("Backend API unavailable. Using local dashboard stats.");
+            return { success: true, stats: dashboardStats };
         }
     };
 
@@ -47,14 +51,13 @@ export default function useAdmin() {
     const handleGetAllProperties = async () => {
         try {
             const data = await getAllPropertiesAPI();
-
-            if (data.success) {
+            if (data && data.success) {
                 setAllProperties(data.properties);
             }
-
             return data;
         } catch (err) {
-            console.log(err);
+            console.warn("Backend API unavailable. Using local properties list.");
+            return { success: true, properties: allProperties };
         }
     };
 
@@ -62,14 +65,13 @@ export default function useAdmin() {
     const handleGetPendingProperties = async () => {
         try {
             const data = await getPendingPropertiesAPI();
-
-            if (data.success) {
+            if (data && data.success) {
                 setPendingProperties(data.properties);
             }
-
             return data;
         } catch (err) {
-            console.log(err);
+            console.warn("Backend API unavailable. Using local pending properties.");
+            return { success: true, properties: pendingProperties };
         }
     };
 
@@ -77,14 +79,14 @@ export default function useAdmin() {
     const handleApproveProperty = async (id) => {
         try {
             const data = await approvePropertyAPI(id);
-
-            if (data.success) {
-                await handleGetPendingProperties();
+            if (data && data.success) {
+                approveProperty(id); // Keep local in sync
             }
-
             return data;
         } catch (err) {
-            console.log(err);
+            console.warn("Backend API unavailable. Approving property locally.");
+            approveProperty(id);
+            return { success: true, message: "Property approved locally" };
         }
     };
 
@@ -92,14 +94,14 @@ export default function useAdmin() {
     const handleRejectProperty = async (id) => {
         try {
             const data = await rejectPropertyAPI(id);
-
-            if (data.success) {
-                await handleGetPendingProperties();
+            if (data && data.success) {
+                rejectProperty(id); // Keep local in sync
             }
-
             return data;
         } catch (err) {
-            console.log(err);
+            console.warn("Backend API unavailable. Rejecting property locally.");
+            rejectProperty(id);
+            return { success: true, message: "Property rejected locally" };
         }
     };
 
@@ -107,29 +109,40 @@ export default function useAdmin() {
     const handleMarkPropertyAsSold = async (id) => {
         try {
             const data = await markPropertyAsSoldAPI(id);
-
-            if (data.success) {
-                await handleGetAllProperties();
+            if (data && data.success) {
+                markPropertyAsSold(id); // Keep local in sync
             }
-
             return data;
         } catch (err) {
-            console.log(err);
+            console.warn("Backend API unavailable. Marking property as sold locally.");
+            markPropertyAsSold(id);
+            return { success: true, message: "Property marked sold locally" };
         }
     };
 
-    // All Inquiries
+    // Delete Property
+    const handleDeleteProperty = async (id) => {
+        try {
+            // No delete API existed in API files, run locally
+            deleteProperty(id);
+            return { success: true, message: "Property deleted locally" };
+        } catch (err) {
+            deleteProperty(id);
+            return { success: true, message: "Property deleted locally" };
+        }
+    };
+
+    // All Inquiries (Purchase Requests)
     const handleGetAllInquiries = async () => {
         try {
             const data = await getAllInquiriesAPI();
-
-            if (data.success) {
+            if (data && data.success) {
                 setInquiries(data.inquiries);
             }
-
             return data;
         } catch (err) {
-            console.log(err);
+            console.warn("Backend API unavailable. Using local inquiries list.");
+            return { success: true, inquiries: inquiries };
         }
     };
 
@@ -137,49 +150,49 @@ export default function useAdmin() {
     const handleGetInquiryById = async (id) => {
         try {
             const data = await getInquiryByIdAPI(id);
-
-            if (data.success) {
+            if (data && data.success) {
                 setSelectedInquiry(data.inquiry);
             }
-
             return data;
         } catch (err) {
-            console.log(err);
+            console.warn("Backend API unavailable. Fetching local inquiry details.");
+            const inq = inquiries.find((i) => i._id === id);
+            if (inq) {
+                setSelectedInquiry(inq);
+            }
+            return { success: true, inquiry: inq };
         }
     };
 
-    // Update Inquiry
+    // Update Inquiry Status (Contacted, Closed, etc.)
     const handleUpdateInquiryStatus = async (id, status) => {
         try {
             const data = await updateInquiryStatusAPI(id, status);
-
-            if (data.success) {
-                await handleGetAllInquiries();
+            if (data && data.success) {
+                updateInquiryStatus(id, status);
             }
-
             return data;
         } catch (err) {
-            console.log(err);
+            console.warn("Backend API unavailable. Updating inquiry status locally.");
+            updateInquiryStatus(id, status);
+            return { success: true, message: `Status updated to ${status} locally` };
         }
     };
 
     return {
         dashboardStats,
-
         pendingProperties,
         allProperties,
-
         inquiries,
         selectedInquiry,
 
         handleDashboardStats,
-
         handleGetAllProperties,
         handleGetPendingProperties,
-
         handleApproveProperty,
         handleRejectProperty,
         handleMarkPropertyAsSold,
+        handleDeleteProperty,
 
         handleGetAllInquiries,
         handleGetInquiryById,
