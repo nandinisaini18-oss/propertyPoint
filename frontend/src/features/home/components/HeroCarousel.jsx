@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from 'react';
-import { heroSlides } from '../data/landingData';
+import { useState, useEffect} from "react";
+import useProperty from "../../property/hook/useProperty";
 
 const ChevronLeft = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -14,23 +14,82 @@ const ChevronRight = () => (
 );
 
 const HeroCarousel = () => {
-  const [active, setActive]   = useState(0);
-  const [paused, setPaused]   = useState(false);
-  const timerRef              = useRef(null);
-  const total                 = heroSlides.length;
+  console.log("HeroCarousel Rendered");
+  // const [active, setActive]   = useState(0);
+  // const [paused, setPaused]   = useState(false);
+  // const timerRef              = useRef(null);
+  // const total                 = heroSlides.length;
 
-  const goTo = (idx) => setActive((idx + total) % total);
+  // // Auto-advance every 3s
+  // useEffect(() => {
+  //   if (paused) return;
+  //   timerRef.current = setInterval(next, 3000);
+  //   return () => clearInterval(timerRef.current);
+  // }, [active, paused]);
+
+  // const slide = heroSlides[active];
+
+  const { handleGetAllProperties } = useProperty();
+
+  const [heroSlides, setHeroSlides] = useState([]);
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+  console.log("useEffect Ran");
+    async function fetchProperties() {
+        try {
+            const data = await handleGetAllProperties();
+
+            console.log("API Response:", data);
+            console.log("Success:", data.success);
+            console.log("Properties:", data.properties);
+            console.log(data)
+
+            if (data.success) {
+                setHeroSlides(data.properties.slice(0, 5));
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    fetchProperties();
+}, []);
+
+useEffect(() => {
+    if (paused || heroSlides.length === 0) return;
+
+    const timer = setInterval(() => {
+        setActive(prev => (prev + 1) % heroSlides.length);
+    }, 3000);
+
+    return () => clearInterval(timer);
+}, [paused, heroSlides]);
+
+
+  const total = heroSlides.length;
+  const slide = heroSlides[active];
+
+  if (total === 0) {
+    return (
+        <section className="lp-hero">
+          console.log("heroSlides:", heroSlides);
+console.log("length:", heroSlides.length);
+            <h2 style={{ color: "white", textAlign: "center" }}>
+                Loading...
+            </h2>
+        </section>
+    );
+}
+
+  
+
+const goTo = (idx) => setActive((idx + total) % total);
   const next = () => goTo(active + 1);
   const prev = () => goTo(active - 1);
 
-  // Auto-advance every 3s
-  useEffect(() => {
-    if (paused) return;
-    timerRef.current = setInterval(next, 3000);
-    return () => clearInterval(timerRef.current);
-  }, [active, paused]);
 
-  const slide = heroSlides[active];
 
   return (
     <section
@@ -41,9 +100,9 @@ const HeroCarousel = () => {
     >
       {/* Slides */}
       {heroSlides.map((s, i) => (
-        <div key={s.id} className={`lp-hero__slide${i === active ? ' active' : ''}`}>
+        <div key={s._id} className={`lp-hero__slide${i === active ? ' active' : ''}`}>
           <img
-            src={s.image}
+            src={s.propertyImages?.[0]}
             alt={s.title}
             className="lp-hero__img"
             loading={i === 0 ? 'eager' : 'lazy'}
@@ -54,8 +113,13 @@ const HeroCarousel = () => {
 
       {/* Info overlay */}
       <div className="lp-hero__info" aria-live="polite">
-        <div className="lp-hero__label">{slide.label}</div>
-        <h1 className="lp-hero__title">{slide.title}</h1>
+        <div className="lp-hero__label">
+    {slide.category}
+</div>
+
+<h1 className="lp-hero__title">
+    {slide.title}
+</h1>
         <div className="lp-hero__card">
           <div className="lp-hero__card-item">
             <span className="lp-hero__card-label">Price</span>
@@ -81,12 +145,12 @@ const HeroCarousel = () => {
           </div>
           <div className="lp-hero__card-item">
             <span className="lp-hero__card-label">Location</span>
-            <span className="lp-hero__card-value">{slide.city}, {slide.state}</span>
+            <span className="lp-hero__card-value">{slide.address}, {slide.city}</span>
           </div>
           <div className="lp-hero__card-item">
             <span className="lp-hero__card-label">Status</span>
             <span className={`lp-hero__card-badge lp-hero__card-badge--available`}>
-              ● {slide.availability}
+              ● ● {slide.status}
             </span>
           </div>
         </div>

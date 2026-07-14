@@ -63,7 +63,11 @@ const Login = () => {
       password: form.password,
     });
 
-    navigate("/");
+    if (data.user.role === "admin") {
+        navigate("/admin");
+    } else {
+        navigate("/");
+    }
 
   } catch (err) {
       console.log(err);

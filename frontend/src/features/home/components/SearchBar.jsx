@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const SearchIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -8,6 +10,7 @@ const SearchIcon = () => (
 );
 
 const SearchBar = () => {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     location: '',
     category: '',
@@ -15,14 +18,29 @@ const SearchBar = () => {
     maxPrice: '',
   });
 
+
   const handleChange = (field) => (e) =>
     setForm((p) => ({ ...p, [field]: e.target.value }));
 
   const handleSearch = (e) => {
     e.preventDefault();
-    // TODO: navigate to search results with query params
-    console.log('Search:', form);
-  };
+
+    const params = new URLSearchParams();
+
+    if (form.location)
+        params.append("city", form.location);
+
+    if (form.category)
+        params.append("category", form.category);
+
+    if (form.minPrice)
+        params.append("minPrice", form.minPrice);
+
+    if (form.maxPrice)
+        params.append("maxPrice", form.maxPrice);
+
+    navigate(`/properties?${params.toString()}`);
+};
 
   return (
     <div className="lp-search-wrapper">

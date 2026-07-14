@@ -11,8 +11,9 @@ import './Locations.css';
 
 const Locations = () => {
   const { handleGetLocations } = useProperty();
-
   const [cities, setCities] = useState([]);
+  const [filteredCities, setFilteredCities] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   // Scroll to top on mount
   useEffect(() => {
 
@@ -21,13 +22,11 @@ const Locations = () => {
         try {
 
             const data = await handleGetLocations();
-            console.log("Locations API:", data);
-            console.log(data);
-            setCities(data);
-            if (data) {
-                setCities(data);
-            }
 
+              console.log(data);
+
+              setCities(data);
+              setFilteredCities(data);
         } catch (err) {
 
             console.log(err);
@@ -39,6 +38,23 @@ const Locations = () => {
     fetchLocations();
 
 }, []);
+
+
+useEffect(() => {
+    if (!Array.isArray(cities)) return;
+
+    if (!searchTerm.trim()) {
+        setFilteredCities(cities);
+        return;
+    }
+
+    const filtered = cities.filter(city =>
+        city.city.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    setFilteredCities(filtered);
+}, [searchTerm, cities]);
+
 
   return (
     <div className="locations">
@@ -58,7 +74,10 @@ const Locations = () => {
           <p className="locations__hero-subtitle">
             Browse verified apartments, villas, houses, plots, offices, and commercial properties in India's most popular cities.
           </p>
-          <LocationSearch />
+          <LocationSearch
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+          />
         </div>
       </section>
 
@@ -71,20 +90,16 @@ const Locations = () => {
         
         <div className="locations__grid">
 
-    {cities.length > 0 ? (
-
-        cities.map(city => (
-            <CityCard
-                key={city.city}
-                city={city}
-            />
-        ))
-
-    ) : (
-
-        <h3>No Locations Found</h3>
-
-    )}
+    {filteredCities.length > 0 ? (
+    filteredCities.map(city => (
+        <CityCard
+            key={city.city}
+            city={city}
+        />
+    ))
+) : (
+    <h3>No Locations Found</h3>
+)}
 
 </div>
       </section>

@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import AdminProtectedRoute from "./AdminProtectedRoutes";
 import Home from "../features/auth/pages/Home"
 import Login from "../features/auth/pages/Login"
 import Register from "../features/auth/pages/Register"
@@ -14,6 +15,7 @@ import Dashboard from "../features/admin/pages/Dasboard";
 import AdminProperties from "../features/admin/pages/Properties";
 import PendingRequests from "../features/admin/pages/PendingRequests";
 import PurchaseRequests from "../features/admin/pages/PurchaseRequests";
+import ProtectedRoute from "./ProtectedRoute";
 
 const router = createBrowserRouter([
     {
@@ -42,26 +44,28 @@ const router = createBrowserRouter([
     },
 
     {
-        path: "/sell-property",
-        element: <CreateProperty />,
+    path: "/sell-property",
+        element: (
+            <ProtectedRoute>
+                <CreateProperty />
+            </ProtectedRoute>
+        ),
     },
-
     {
         path: "/my-properties",
         element: <MyProperty />,
-    },
-
-    {
-        path: "/properties/edit/:id",
-        element: <EditProperties />,
     },
     {
         path: "/locations",
         element: <Locations />,
     },
     {
-        path: "/favorites",
-        element: <Favorites />,
+    path: "/favorites",
+        element: (
+            <ProtectedRoute>
+                <Favorites />
+            </ProtectedRoute>
+        ),
     },
     {
         path: "/contact",
@@ -69,19 +73,35 @@ const router = createBrowserRouter([
     },
     {
         path: "/admin/dashboard",
-        element: <Dashboard />,
+        element: (
+            <AdminProtectedRoute>
+                <Dashboard />
+            </AdminProtectedRoute>
+        ),
     },
     {
         path : "/admin/properties",
-        element : <AdminProperties />
+        element: (
+            <AdminProtectedRoute>
+                <AdminProperties />
+            </AdminProtectedRoute>
+        ),
     },
     {
         path: "/admin/pending",
-        element: <PendingRequests />
+        element: (
+            <AdminProtectedRoute>
+               <PendingRequests />
+            </AdminProtectedRoute>
+        ),
     },
     {
         path: "/admin/purchase-requests",
-        element: <PurchaseRequests />
+        element: (
+            <AdminProtectedRoute>
+               <PurchaseRequests />
+            </AdminProtectedRoute>
+        ), 
     }
 ]);
 

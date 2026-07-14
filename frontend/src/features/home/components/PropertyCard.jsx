@@ -46,10 +46,9 @@ const PropertyCard = ({ property }) => {
       {/* Image */}
       <div className="lp-prop-card__img-wrap">
         <img
-          src={image}
-          alt={title}
-          className="lp-prop-card__img"
-          loading="lazy"
+          src={property.propertyImages?.[0]}
+          alt={property.title}
+          className="property-card__image"
         />
         <button
           className={`lp-prop-card__fav${fav ? ' active' : ''}`}
