@@ -84,29 +84,23 @@ export function useAuth() {
         }
     }
 
-    async function handleGetMe() {
+    const handleGetMe = async () => {
+    dispatch(setLoading(true));
 
-        dispatch(setLoading(true));
+    try {
+        const { data } = await getMeAPI();
 
-        try {
+        console.log("GET ME SUCCESS", data);
 
-            const res = await getMeAPI();
+        dispatch(setUser(data.user));
+    } catch (err) {
+        console.log("GET ME FAILED", err.response?.data);
 
-            dispatch(setUser(res.data.user));
-
-            await handleGetFavorites();
-
-            return res.data;
-
-        } catch (err) {
-
-            dispatch(logout());
-
-        } finally {
-
-            dispatch(setLoading(false));
-        }
+        dispatch(setUser(null));
+    } finally {
+        dispatch(setLoading(false));
     }
+};
 
     async function handleLogout() {
 

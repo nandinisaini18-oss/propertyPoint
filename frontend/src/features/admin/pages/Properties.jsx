@@ -59,7 +59,7 @@ export default function AdminProperties() {
       const matchesSearch =
         !search ||
         p.title.toLowerCase().includes(search.toLowerCase()) ||
-        p.seller.toLowerCase().includes(search.toLowerCase()) ||
+        p.seller?.fullname?.toLowerCase().includes(search.toLowerCase()) ||
         p._id.includes(search);
       const matchesCategory = !category || p.category === category;
       const matchesCity = !city || p.city === city;
@@ -256,7 +256,7 @@ export default function AdminProperties() {
               {/* Image */}
               <div className="h-48 rounded-xl overflow-hidden bg-gray-50 border border-gray-150">
                 <img
-                  src={selectedProperty.image || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80"}
+                  src={selectedProperty.images?.[0]|| "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80"}
                   alt={selectedProperty.title}
                   className="w-full h-full object-cover"
                 />
@@ -268,7 +268,7 @@ export default function AdminProperties() {
                   {selectedProperty.title}
                 </h2>
                 <div className="flex items-center gap-3">
-                  <span className="text-base font-extrabold text-gray-950">{selectedProperty.price}</span>
+                  <span className="text-base font-extrabold text-gray-950">{selectedProperty.price.toLocaleString("en-IN")}</span>
                   <StatusBadge status={selectedProperty.status} />
                 </div>
               </div>
@@ -298,18 +298,18 @@ export default function AdminProperties() {
                 <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Seller Contact details</p>
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-700 text-xs border border-gray-200">
-                    {selectedProperty.seller?.charAt(0)}
+                    {selectedProperty.seller?.fullname.charAt(0)}
                   </div>
                   <div>
                     <p className="text-xs font-bold text-gray-800">{selectedProperty.seller}</p>
                     <div className="text-[10px] text-gray-400 space-y-0.5 mt-0.5">
                       <p className="flex items-center gap-1">
                         <Mail className="w-3 h-3 text-gray-400" />
-                        {selectedProperty.sellerEmail}
+                        {selectedProperty.seller.email}
                       </p>
                       <p className="flex items-center gap-1">
                         <Phone className="w-3 h-3 text-gray-400" />
-                        {selectedProperty.sellerPhone}
+                        {selectedProperty.seller.contact}
                       </p>
                     </div>
                   </div>

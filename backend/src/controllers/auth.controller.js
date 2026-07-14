@@ -12,7 +12,7 @@ async function createToken(res , user , message){
 
     res.cookie("token", token, {
         httpOnly: true,
-        sameSite: "none",
+        sameSite: "lax",
         secure: config.NODE_ENV === "production"
     })
 

@@ -37,21 +37,7 @@ export const markPropertyAsSoldAPI = async (id) => {
     return data;
 };
 
-// Inquiries
-export const getAllInquiriesAPI = async () => {
-    const { data } = await adminAPI.get("/inquiries");
-    return data;
-};
-
-export const getInquiryByIdAPI = async (id) => {
-    const { data } = await adminAPI.get(`/inquiries/${id}`);
-    return data;
-};
-
-export const updateInquiryStatusAPI = async (id, status) => {
-    const { data } = await adminAPI.patch(`/inquiries/${id}`, {
-        status,
-    });
-
+export const deletePropertyAPI = async (id) => {
+    const { data } = await adminAPI.delete(`/properties/${id}`);
     return data;
 };

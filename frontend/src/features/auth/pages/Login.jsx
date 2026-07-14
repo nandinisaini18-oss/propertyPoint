@@ -58,16 +58,16 @@ const Login = () => {
   setLoading(true);
 
   try {
-    await handleLogin({
-      email: form.email,
-      password: form.password,
-    });
+    const data = await handleLogin({
+    email: form.email,
+    password: form.password,
+});
 
-    if (data.user.role === "admin") {
-        navigate("/admin");
-    } else {
-        navigate("/");
-    }
+if (data.user.role === "admin") {
+    navigate("/admin/dashboard");
+} else {
+    navigate("/");
+}
 
   } catch (err) {
       console.log(err);

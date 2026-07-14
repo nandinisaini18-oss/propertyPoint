@@ -35,6 +35,15 @@ export default function PendingRequests() {
     type: "", // "approve" or "reject"
     propertyId: null,
   });
+useEffect(() => {
+  if (selectedProperty) {
+    console.log(selectedProperty);
+    console.log(selectedProperty.propertyImages);
+  }
+}, [selectedProperty]);
+  useEffect(() => {
+  console.log(pendingProperties.propertyImages);
+}, [pendingProperties]);
 
   useEffect(() => {
     async function loadPending() {
@@ -50,9 +59,9 @@ export default function PendingRequests() {
     return pendingProperties.filter((p) => {
       const q = search.toLowerCase();
       const matchesSearch =
-        !search ||
-        p.title.toLowerCase().includes(q) ||
-        p.seller.toLowerCase().includes(q);
+  !search ||
+  p.title?.toLowerCase().includes(q) ||
+  p.seller?.fullname?.toLowerCase().includes(q);
       const matchesCategory = !category || p.category === category;
       const matchesCity = !city || p.city === city;
 
@@ -97,8 +106,10 @@ export default function PendingRequests() {
     setLoading(true);
     if (type === "approve") {
       await handleApproveProperty(propertyId);
+      await handleGetPendingProperties();
     } else if (type === "reject") {
       await handleRejectProperty(propertyId);
+      await handleGetPendingProperties();
     }
     
     // If the active property inside the drawer was approved/rejected, close it
@@ -170,8 +181,11 @@ export default function PendingRequests() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            
             {filteredPending.map((p) => (
+              
               <PropertyCard
+              
                 key={p._id}
                 property={p}
                 onApprove={(id) => triggerApprove(id)}
@@ -221,13 +235,14 @@ export default function PendingRequests() {
                 
                 {/* Images Container */}
                 <div className="h-52 rounded-xl overflow-hidden bg-gray-50 border border-gray-150 relative">
+
                   <img
-                    src={selectedProperty.image || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80"}
+                    src={selectedProperty.propertyImages?.[0] || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80"}
                     alt={selectedProperty.title}
                     className="w-full h-full object-cover"
                   />
                   <div className="absolute top-3 left-3">
-                    <StatusBadge status="pending" />
+                    <StatusBadge status={selectedProperty.status} />
                   </div>
                 </div>
 
@@ -236,7 +251,7 @@ export default function PendingRequests() {
                   <h2 className="text-lg font-bold text-gray-900 leading-snug" style={{ fontFamily: "'Manrope', sans-serif" }}>
                     {selectedProperty.title}
                   </h2>
-                  <p className="text-xl font-extrabold text-gray-950">{selectedProperty.price}</p>
+                  <p className="text-xl font-extrabold text-gray-950">{selectedProperty.price?.toLocaleString("en-IN")}</p>
                 </div>
 
                 {/* Specs Grid */}
@@ -264,14 +279,14 @@ export default function PendingRequests() {
                 {/* Submission Date */}
                 <div className="flex items-center gap-2 text-xs text-gray-500 bg-gray-50/50 border border-gray-100/50 rounded-xl px-4 py-2.5">
                   <Calendar className="w-4 h-4 text-gray-400" />
-                  <span>Submitted on: <span className="font-bold text-gray-700">{selectedProperty.date || "July 12, 2026"}</span></span>
+                  <span>Submitted on: <span className="font-bold text-gray-700">{new Date(selectedProperty.createdAt).toLocaleDateString()}</span></span>
                 </div>
 
                 {/* Amenities List */}
                 <div className="space-y-2">
                   <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Amenities & Features</p>
                   <div className="flex flex-wrap gap-1.5">
-                    {(selectedProperty.amenities || ["Parking", "Lift", "Security", "WiFi", "Balcony", "Garden"]).map((amenity, i) => (
+                    {(selectedProperty.amenities || []).map((amenity, i) => (
                       <span
                         key={i}
                         className="bg-gray-100 text-gray-700 text-[10px] font-bold px-2.5 py-1.5 rounded-lg border border-gray-150"
@@ -287,18 +302,18 @@ export default function PendingRequests() {
                   <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Seller Details</p>
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-700 text-sm border border-gray-200">
-                      {selectedProperty.seller?.charAt(0)}
+                      {selectedProperty.seller?.fullname?.charAt(0)}
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-gray-900">{selectedProperty.seller}</p>
+                      <p className="text-xs font-bold text-gray-900">{selectedProperty.seller?.fullname}</p>
                       <div className="text-[10px] text-gray-400 space-y-0.5 mt-0.5">
                         <p className="flex items-center gap-1.5 truncate">
                           <Mail className="w-3.5 h-3.5 text-gray-400" />
-                          {selectedProperty.sellerEmail}
+                          {selectedProperty.seller?.email}
                         </p>
                         <p className="flex items-center gap-1.5">
                           <Phone className="w-3.5 h-3.5 text-gray-400" />
-                          {selectedProperty.sellerPhone}
+                          {selectedProperty.seller?.contact}
                         </p>
                       </div>
                     </div>

@@ -14,7 +14,6 @@ import Contact from "../features/contact/pages/Contact";
 import Dashboard from "../features/admin/pages/Dasboard";
 import AdminProperties from "../features/admin/pages/Properties";
 import PendingRequests from "../features/admin/pages/PendingRequests";
-import PurchaseRequests from "../features/admin/pages/PurchaseRequests";
 import ProtectedRoute from "./ProtectedRoute";
 
 const router = createBrowserRouter([
@@ -94,14 +93,6 @@ const router = createBrowserRouter([
                <PendingRequests />
             </AdminProtectedRoute>
         ),
-    },
-    {
-        path: "/admin/purchase-requests",
-        element: (
-            <AdminProtectedRoute>
-               <PurchaseRequests />
-            </AdminProtectedRoute>
-        ), 
     }
 ]);
 

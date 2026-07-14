@@ -5,12 +5,16 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useAuth } from "../../auth/hook/useAuth";
 import './PropertyCard.css'
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function PropertyCard({ property, onApprove, onReject, onView, showGallery = false }) {
   const favorites = useSelector(state => state.auth.favorites);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  console.log("Property:", property);
+console.log("Images:", property.propertyImages);
+console.log("First Image:", property.propertyImages?.[0]);
 
-  const images = property.propertyImages || [];
+  const images = property.propertyimage || [];
   const hasMultipleImages = images.length > 1;
 
   const nextImage = (e) => {
@@ -64,7 +68,7 @@ console.log(
       {/* Photo / Photo Gallery Section */}
       <div className="relative h-56 overflow-hidden bg-gray-100 flex-shrink-0">
         <img
-          src={images[currentImageIndex] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&q=75"}
+          src={property.propertyImages?.[0]}
           alt={property.title}
           className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
         />

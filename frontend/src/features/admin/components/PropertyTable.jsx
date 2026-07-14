@@ -48,7 +48,7 @@ export default function PropertyTable({ properties, onView, onMarkSold, onDelete
                   <td className="px-6 py-4 max-w-xs">
                     <div className="flex items-center gap-3">
                       <img
-                        src={p.image || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=100&q=75"}
+                        src={p.propertyImages}
                         alt={p.title}
                         className="w-11 h-11 rounded-xl object-cover border border-gray-100 flex-shrink-0"
                       />

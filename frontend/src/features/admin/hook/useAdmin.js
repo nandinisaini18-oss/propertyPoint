@@ -7,30 +7,24 @@ import {
     approvePropertyAPI,
     rejectPropertyAPI,
     markPropertyAsSoldAPI,
-    getAllInquiriesAPI,
-    getInquiryByIdAPI,
-    updateInquiryStatusAPI,
-} from "../service/admin.api"
+    deletePropertyAPI
+} from "../service/admin.api";
 
 export default function useAdmin() {
     const {
         dashboardStats,
         pendingProperties,
         allProperties,
-        inquiries,
-        selectedInquiry,
 
         setDashboardStats,
         setPendingProperties,
         setAllProperties,
-        setInquiries,
-        setSelectedInquiry,
 
         approveProperty,
         rejectProperty,
         markPropertyAsSold,
         deleteProperty,
-        updateInquiryStatus,
+
     } = useAdminStore();
 
     // Dashboard Stats
@@ -70,7 +64,7 @@ export default function useAdmin() {
             }
             return data;
         } catch (err) {
-            console.warn("Backend API unavailable. Using local pending properties.");
+            console.warn(err);
             return { success: true, properties: pendingProperties };
         }
     };
@@ -109,82 +103,31 @@ export default function useAdmin() {
     const handleMarkPropertyAsSold = async (id) => {
         try {
             const data = await markPropertyAsSoldAPI(id);
-            if (data && data.success) {
-                markPropertyAsSold(id); // Keep local in sync
+            if (data.success) {
+                await handleGetAllProperties();
             }
             return data;
         } catch (err) {
-            console.warn("Backend API unavailable. Marking property as sold locally.");
-            markPropertyAsSold(id);
+            console.warn(err);
             return { success: true, message: "Property marked sold locally" };
         }
     };
 
     // Delete Property
     const handleDeleteProperty = async (id) => {
-        try {
-            // No delete API existed in API files, run locally
-            deleteProperty(id);
-            return { success: true, message: "Property deleted locally" };
-        } catch (err) {
-            deleteProperty(id);
-            return { success: true, message: "Property deleted locally" };
-        }
-    };
+    const data = await deletePropertyAPI(id);
 
-    // All Inquiries (Purchase Requests)
-    const handleGetAllInquiries = async () => {
-        try {
-            const data = await getAllInquiriesAPI();
-            if (data && data.success) {
-                setInquiries(data.inquiries);
-            }
-            return data;
-        } catch (err) {
-            console.warn("Backend API unavailable. Using local inquiries list.");
-            return { success: true, inquiries: inquiries };
-        }
-    };
+    if (data.success) {
+        deleteProperty(id);
+    }
 
-    // Single Inquiry
-    const handleGetInquiryById = async (id) => {
-        try {
-            const data = await getInquiryByIdAPI(id);
-            if (data && data.success) {
-                setSelectedInquiry(data.inquiry);
-            }
-            return data;
-        } catch (err) {
-            console.warn("Backend API unavailable. Fetching local inquiry details.");
-            const inq = inquiries.find((i) => i._id === id);
-            if (inq) {
-                setSelectedInquiry(inq);
-            }
-            return { success: true, inquiry: inq };
-        }
-    };
-
-    // Update Inquiry Status (Contacted, Closed, etc.)
-    const handleUpdateInquiryStatus = async (id, status) => {
-        try {
-            const data = await updateInquiryStatusAPI(id, status);
-            if (data && data.success) {
-                updateInquiryStatus(id, status);
-            }
-            return data;
-        } catch (err) {
-            console.warn("Backend API unavailable. Updating inquiry status locally.");
-            updateInquiryStatus(id, status);
-            return { success: true, message: `Status updated to ${status} locally` };
-        }
-    };
+    return data;
+};
 
     return {
         dashboardStats,
         pendingProperties,
         allProperties,
-        inquiries,
-        selectedInquiry,
 
         handleDashboardStats,
         handleGetAllProperties,
@@ -193,9 +136,5 @@ export default function useAdmin() {
         handleRejectProperty,
         handleMarkPropertyAsSold,
         handleDeleteProperty,
-
-        handleGetAllInquiries,
-        handleGetInquiryById,
-        handleUpdateInquiryStatus,
     };
 }

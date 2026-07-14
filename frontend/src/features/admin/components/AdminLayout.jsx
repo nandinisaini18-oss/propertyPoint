@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import {
   Home,
   Search,
@@ -20,7 +21,6 @@ const NAV_ITEMS = [
   { label: "Dashboard", path: "/admin/dashboard", icon: LayoutDashboard },
   { label: "Properties", path: "/admin/properties", icon: Building2 },
   { label: "Pending Requests", path: "/admin/pending", icon: ClipboardList },
-  { label: "Purchase Requests", path: "/admin/purchase-requests", icon: MessageSquare },
 ];
 
 export default function AdminLayout({ children }) {
@@ -112,7 +112,7 @@ export default function AdminLayout({ children }) {
               {/* Notifications Dropdown */}
               <div className="relative" ref={notifRef}>
                 <button
-                  onClick={() => setNotifOpen(!notifOpen)}
+                  onClick={() => navigate("/admin/pending")}
                   className="relative p-2.5 rounded-xl text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-colors"
                 >
                   <Bell className="w-5 h-5" strokeWidth={1.8} />
