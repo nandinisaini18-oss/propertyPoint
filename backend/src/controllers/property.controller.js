@@ -108,7 +108,7 @@ export const getPropertyById = async (req, res) => {
 
         const property = await propertyModel
             .findById(req.params.id)
-            .populate("createdBy", "fullname contact");
+            .populate("createdBy", "fullname contact email");
 
         if (!property) {
 
@@ -117,6 +117,9 @@ export const getPropertyById = async (req, res) => {
                 message: "Property not found."
             });
         }
+
+        console.log(property);
+        console.log(property.createdBy);    
 
         return res.status(200).json({
             success: true,
@@ -178,7 +181,25 @@ export const updateProperty = async (req, res) => {
             });
         }
 
-        Object.assign(property, req.body);
+        const allowedFields = [
+    "title",
+    "description",
+    "price",
+    "area",
+    "city",
+    "state",
+    "address",
+    "bedrooms",
+    "bathrooms",
+    "amenities",
+    "category"
+];
+
+allowedFields.forEach(field => {
+    if (req.body[field] !== undefined) {
+        property[field] = req.body[field];
+    }
+});
 
         property.approvalStatus = "Pending";
 

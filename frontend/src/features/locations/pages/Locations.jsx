@@ -1,4 +1,4 @@
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Navbar from '../../home/components/Navbar';
 import CityCard from '../components/CityCard';
 import LocationSearch from '../components/LocationSearch';

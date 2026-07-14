@@ -3,42 +3,68 @@ import { useSelector } from "react-redux";
 import { useAuth } from "../../auth/hook/useAuth";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import "./PropertyCard.css"
-
+import { Link } from 'react-router-dom';
 const PropertyCard = ({ property }) => {
-  const favorites = useSelector(
-  state => state.auth.favorites || []
-);
-console.log(useSelector(state => state.auth));
-console.log(property);
+//   const [favorites, setFavorites] = useState(...)
+//   const favorites = useSelector(
+//   state => state.auth.favorites || []
+// );
+// console.log(useSelector(state => state.auth));
+// console.log(property);
+
+// const {
+//     handleAddFavorite,
+//     handleRemoveFavorite
+// } = useAuth();
+// console.log("favorites:", favorites);
+// console.log("type:", typeof favorites);
+// console.log("isArray:", Array.isArray(favorites));
+
+// const isFavorite = (id) => {
+//     console.log("Checking favorites:", favorites);
+
+//     return favorites.some((fav, index) => {
+//         console.log(index, fav);
+//         return fav?._id === id;
+//     });
+// };
+// const toggleFavorite = async (id) => {
+
+//     if (isFavorite(id)) {
+
+//         await handleRemoveFavorite(id);
+
+//     } else {
+
+//         await handleAddFavorite(property._id);
+
+//     }
+
+// };
+const favorites = useSelector(state => state.auth.favorites);
+console.log("Favorites:", favorites);
+console.log("Is Array:", Array.isArray(favorites));
+
+favorites?.forEach((f, index) => {
+    console.log(index, f);
+});
+console.log("Current Property:", property);
 
 const {
     handleAddFavorite,
-    handleRemoveFavorite
+    handleRemoveFavorite,
 } = useAuth();
-console.log("favorites:", favorites);
-console.log("type:", typeof favorites);
-console.log("isArray:", Array.isArray(favorites));
 
-const isFavorite = (id) => {
-    console.log("Checking favorites:", favorites);
+const isFavorite = (id) =>
+    favorites.some(fav => fav._id === id);
+console.log(favorites[0]);
 
-    return favorites.some((fav, index) => {
-        console.log(index, fav);
-        return fav?._id === id;
-    });
-};
 const toggleFavorite = async (id) => {
-
     if (isFavorite(id)) {
-
         await handleRemoveFavorite(id);
-
     } else {
-
         await handleAddFavorite(id);
-
     }
-
 };
   return (
     <div className="property-card">
@@ -102,7 +128,9 @@ const toggleFavorite = async (id) => {
         </div>
         
         <div className="property-card__footer">
-          <button className="property-card__btn">View Details</button>
+          <Link to={`/properties/${property._id || property.id}`} className="property-card__btn" style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+            View Details
+          </Link>
         </div>
       </div>
     </div>

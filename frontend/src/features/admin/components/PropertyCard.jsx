@@ -4,6 +4,7 @@ import StatusBadge from "./StatusBadge";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useAuth } from "../../auth/hook/useAuth";
 import './PropertyCard.css'
+import { Link } from "react-router-dom";
 
 export default function PropertyCard({ property, onApprove, onReject, onView, showGallery = false }) {
   const favorites = useSelector(state => state.auth.favorites);

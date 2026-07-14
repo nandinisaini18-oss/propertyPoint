@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 
 // Icons
 const HeartIcon = ({ filled }) => (
@@ -85,7 +87,9 @@ const PropertyCard = ({ property }) => {
 
       {/* CTA */}
       <div className="lp-prop-card__footer">
-        <button className="lp-prop-card__btn">View Details</button>
+        <Link to={`/properties/${property._id || property.id}`} className="lp-prop-card__btn" style={{ textDecoration: 'none', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+          View Details
+        </Link>
       </div>
     </div>
   );

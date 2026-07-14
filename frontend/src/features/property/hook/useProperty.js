@@ -43,27 +43,24 @@ export default function useProperty() {
         }
     };
 
-    const handleGetPropertyById = async (id) => {
+   const handleGetPropertyById = async (id) => {
 
-        try {
+    try {
 
-            dispatch(setLoading(true));
+        dispatch(setLoading(true));
 
-            const { data } = await getPropertyByIdApi(id);
+        const { data } = await getPropertyByIdApi(id);
 
-            dispatch(setProperty(data.property));
+        dispatch(setProperty(data.property));
 
-        } catch (err) {
+        return data;
 
-            console.log(err);
+    } finally {
 
-        } finally {
+        dispatch(setLoading(false));
 
-            dispatch(setLoading(false));
-
-        }
-
-    };
+    }
+}
 
     const handleCreateProperty = async (formData) => {
 

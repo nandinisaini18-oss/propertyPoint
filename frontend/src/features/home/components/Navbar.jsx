@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { FaRegHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
