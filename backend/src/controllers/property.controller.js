@@ -8,6 +8,7 @@ export const createProperty = async (req, res) => {
             description,
             category,
             area,
+            areaUnit,
             address,
             city,
             state,
@@ -16,6 +17,7 @@ export const createProperty = async (req, res) => {
             bathrooms,
             amenities,
         } = req.body;
+        console.log(req.files);
 
         if (!req.files || req.files.length === 0) {
             return res.status(400).json({
@@ -43,6 +45,7 @@ export const createProperty = async (req, res) => {
             description,
             category,
             area,
+            areaUnit,
             address,
             city,
             state,

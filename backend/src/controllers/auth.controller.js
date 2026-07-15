@@ -112,6 +112,7 @@ export async function getMe(req , res){
                 success : false
             })
         }
+        console.log(req.user)
 
         res.status(200).json({
             message : "user details fetched successfully",
@@ -135,7 +136,7 @@ export async function getMe(req , res){
 export async function logout(req , res){
     res.clearCookie("token",{
         httpOnly:true,
-        sameSite:"none",
+        sameSite:"lax",
         secure:process.env.NODE_ENV==="production"
     })
 

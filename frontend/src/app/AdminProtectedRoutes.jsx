@@ -1,19 +1,32 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-const AdminProtectedRoute = ({children}) => {
-    const { user } = useSelector(state => state.auth);
+const AdminProtectedRoute = ({ children }) => {
+    const { user, loading } = useSelector(state => state.auth);
 
+    console.log("Admin Route", {
+        loading,
+        user,
+        pathname: window.location.pathname
+    });
 
-if (!user) {
-    return <Navigate to="/login" />;
-}
+    if (loading) {
+        console.log("Loading...");
+        return <div>Loading...</div>;
+    }
 
-if (user.role !== "admin") {
-    return <Navigate to="/" />;
-}
+    if (!user) {
+        console.log("Redirect because user is null");
+        return <Navigate to="/login" replace />;
+    }
 
-return children;
+    if (user.role !== "admin") {
+        console.log("Redirect because role =", user.role);
+        return <Navigate to="/" replace />;
+    }
+
+    console.log("Rendering dashboard");
+
+    return children;
 };
-
 export default AdminProtectedRoute;

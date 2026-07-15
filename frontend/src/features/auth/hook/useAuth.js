@@ -95,8 +95,9 @@ export function useAuth() {
         dispatch(setUser(data.user));
     } catch (err) {
         console.log("GET ME FAILED", err.response?.data);
-
+        console.log(err.response?.status);
         dispatch(setUser(null));
+        console.log("Redux user:", data.user);
     } finally {
         dispatch(setLoading(false));
     }

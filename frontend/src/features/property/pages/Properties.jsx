@@ -7,6 +7,7 @@ import Pagination from '../components/Pagination';
 import SortDropdown from '../components/SortDropdown';
 import useProperty from "../hook/useProperty";
 import './Properties.css';
+import { Footer } from '../../home/components/Footer';
 
 const ITEMS_PER_PAGE = 6;
 
@@ -227,6 +228,7 @@ const Properties = () => {
           )}
         </section>
       </main>
+      <Footer />
     </div>
   );
 };

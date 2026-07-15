@@ -8,6 +8,7 @@ import { popularCities, whyBuyFeatures } from '../data/locationsData';
 import { useState, useEffect } from "react";
 import useProperty from '../../property/hook/useProperty';
 import './Locations.css';
+import { Footer } from '../../home/components/Footer';
 
 const Locations = () => {
   const { handleGetLocations } = useProperty();
@@ -153,7 +154,9 @@ useEffect(() => {
       </section>
 
       {/* Note: Footer component goes here if it exists globally */}
+      <Footer />
     </div>
+    
   );
 };
 

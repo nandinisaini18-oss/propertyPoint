@@ -69,6 +69,9 @@ export default function useProperty() {
             dispatch(setLoading(true));
 
             const { data } = await createPropertyApi(formData);
+            for (let pair of formData.entries()) {
+                console.log(pair[0], pair[1]);
+                }
 
             return data;
 

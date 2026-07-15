@@ -15,5 +15,7 @@ export async function uploadFile(buffer, fileName, folder = "propertyPoint") {
     folder,
   });
 
+  console.log(response);
+
   return response.url;
 }

@@ -7,6 +7,7 @@ import FeaturedProperties from "../../home/components/FeaturedProperties";
 import BrowseByCategory from "../../home/components/BrowseByCategory";
 import BrowseByCity from "../../home/components/BrowseByCity";
 import Locations from "../../locations/pages/Locations";
+import { Footer } from "../../home/components/Footer";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -53,6 +54,7 @@ const Home = () => {
             <FeaturedProperties />
             <BrowseByCity />
             <BrowseByCategory />
+            <Footer />
         </>
     );
 };

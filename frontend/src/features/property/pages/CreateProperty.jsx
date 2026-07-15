@@ -25,6 +25,7 @@ const CreateProperty = () => {
     state: '',
     price: '',
     area: '',
+    areaUnit: 'sqft',
     bedrooms: '',
     bathrooms: '',
     amenities: [],
@@ -47,6 +48,8 @@ const CreateProperty = () => {
     
     if (!form.area) newErrors.area = 'Area is required';
     else if (Number(form.area) <= 0) newErrors.area = 'Area must be greater than 0';
+
+    if (!form.areaUnit) newErrors.areaUnit = 'AreaUnit is required';
     
     if (!form.bedrooms) newErrors.bedrooms = 'Bedrooms are required';
     if (!form.bathrooms) newErrors.bathrooms = 'Bathrooms are required';
@@ -129,6 +132,7 @@ const CreateProperty = () => {
           formData.append("state", form.state);
           formData.append("price", form.price);
           formData.append("area", form.area);
+          formData.append("areaUnit", form.areaUnit);
           formData.append("bedrooms", form.bedrooms);
           formData.append("bathrooms", form.bathrooms);
 
@@ -219,10 +223,16 @@ const CreateProperty = () => {
                 <option value="" disabled>Select a category</option>
                 <option value="Apartment">Apartment</option>
                 <option value="Villa">Villa</option>
-                <option value="House">House</option>
-                <option value="Plot">Plot</option>
+                <option value="Flat">Flat</option>
+                <option value="Independent House">Independent House</option>
+                <option value="Residential Plot">Residential Plot</option>
+                <option value="Commercial Plot">Commercial Plot</option>
+                <option value="Agricultural Land">Agricultural Land</option>
+                <option value="Warehouse">Warehouse</option>
+                <option value="Farmhouse">Farmhouse</option>
                 <option value="Office">Office</option>
-                <option value="Commercial">Commercial</option>
+                <option value="Shop">Shop</option>
+                <option value="Commercial Building">Commercial Building</option>
               </select>
               {errors.category && <span className="cp-error-text">{errors.category}</span>}
             </div>
@@ -275,69 +285,94 @@ const CreateProperty = () => {
           </div>
           {/* Section 3: Property Details */}
           <div className="cp-section">
-            <h2 className="cp-section-title">Property Details</h2>
-            
-            <div className="cp-row">
-              <div className="cp-group">
-                <label className="cp-label">Price ($)</label>
-                <input
-                  type="number"
-                  name="price"
-                  value={form.price}
-                  onChange={handleChange}
-                  placeholder="0.00"
-                  min="0"
-                  className={getInputClass('price')}
-                  disabled={isSubmitting}
-                />
-                {errors.price && <span className="cp-error-text">{errors.price}</span>}
-              </div>
-              <div className="cp-group">
-                <label className="cp-label">Area (sq ft)</label>
-                <input
-                  type="number"
-                  name="area"
-                  value={form.area}
-                  onChange={handleChange}
-                  placeholder="0"
-                  min="0"
-                  className={getInputClass('area')}
-                  disabled={isSubmitting}
-                />
-                {errors.area && <span className="cp-error-text">{errors.area}</span>}
-              </div>
-            </div>
-            <div className="cp-row">
-              <div className="cp-group">
-                <label className="cp-label">Bedrooms</label>
-                <input
-                  type="number"
-                  name="bedrooms"
-                  value={form.bedrooms}
-                  onChange={handleChange}
-                  placeholder="0"
-                  min="0"
-                  className={getInputClass('bedrooms')}
-                  disabled={isSubmitting}
-                />
-                {errors.bedrooms && <span className="cp-error-text">{errors.bedrooms}</span>}
-              </div>
-              <div className="cp-group">
-                <label className="cp-label">Bathrooms</label>
-                <input
-                  type="number"
-                  name="bathrooms"
-                  value={form.bathrooms}
-                  onChange={handleChange}
-                  placeholder="0"
-                  min="0"
-                  className={getInputClass('bathrooms')}
-                  disabled={isSubmitting}
-                />
-                {errors.bathrooms && <span className="cp-error-text">{errors.bathrooms}</span>}
-              </div>
-            </div>
-          </div>
+  <h2 className="cp-section-title">Property Details</h2>
+
+  <div className="cp-row">
+    <div className="cp-group">
+      <label className="cp-label">Price (₹)</label>
+      <input
+        type="number"
+        name="price"
+        value={form.price}
+        onChange={handleChange}
+        placeholder="Enter price"
+        min="0"
+        className={getInputClass("price")}
+        disabled={isSubmitting}
+      />
+      {errors.price && <span className="cp-error-text">{errors.price}</span>}
+    </div>
+
+    <div className="cp-group">
+      <label className="cp-label">Area</label>
+      <input
+        type="number"
+        name="area"
+        value={form.area}
+        onChange={handleChange}
+        placeholder="Enter area"
+        min="0"
+        className={getInputClass("area")}
+        disabled={isSubmitting}
+      />
+      {errors.area && <span className="cp-error-text">{errors.area}</span>}
+    </div>
+
+    <div className="cp-group">
+      <label className="cp-label">Area Unit</label>
+      <select
+        name="areaUnit"
+        value={form.areaUnit}
+        onChange={handleChange}
+        className={getSelectClass("areaUnit")}
+        disabled={isSubmitting}
+      >
+        <option value="sqft">Square Feet</option>
+        <option value="acre">Acre</option>
+      </select>
+
+      {errors.areaUnit && (
+        <span className="cp-error-text">{errors.areaUnit}</span>
+      )}
+    </div>
+  </div>
+
+  <div className="cp-row">
+    <div className="cp-group">
+      <label className="cp-label">Bedrooms</label>
+      <input
+        type="number"
+        name="bedrooms"
+        value={form.bedrooms}
+        onChange={handleChange}
+        placeholder="0"
+        min="0"
+        className={getInputClass("bedrooms")}
+        disabled={isSubmitting}
+      />
+      {errors.bedrooms && (
+        <span className="cp-error-text">{errors.bedrooms}</span>
+      )}
+    </div>
+
+    <div className="cp-group">
+      <label className="cp-label">Bathrooms</label>
+      <input
+        type="number"
+        name="bathrooms"
+        value={form.bathrooms}
+        onChange={handleChange}
+        placeholder="0"
+        min="0"
+        className={getInputClass("bathrooms")}
+        disabled={isSubmitting}
+      />
+      {errors.bathrooms && (
+        <span className="cp-error-text">{errors.bathrooms}</span>
+      )}
+    </div>
+  </div>
+</div>
           {/* Section 4: Amenities */}
           <div className="cp-section">
             <h2 className="cp-section-title">Amenities</h2>

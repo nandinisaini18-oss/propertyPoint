@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { formatPrice } from '../../../utils/formatPrice';
 
 const FavoriteCard = ({ property, onRemove }) => {
   return (
@@ -25,7 +26,7 @@ const FavoriteCard = ({ property, onRemove }) => {
       </div>
       
       <div className="favorite-card__content">
-        <div className="favorite-card__price">{property.price}</div>
+        <div className="favorite-card__price">{formatPrice(property.price)}</div>
         <h3 className="favorite-card__title">{property.title}</h3>
         
         <div className="favorite-card__location">
@@ -60,12 +61,12 @@ const FavoriteCard = ({ property, onRemove }) => {
         </div>
         
         <div className="favorite-card__buttons">
-          <Link to={`/properties/${property.id}`} className="favorite-card__btn favorite-card__btn--primary">
+          <Link to={`/properties/${property._id}`} className="favorite-card__btn favorite-card__btn--primary">
             View Details
           </Link>
           <button 
             className="favorite-card__btn favorite-card__btn--outline"
-            onClick={() => onRemove(property.id)}
+            onClick={() => onRemove(property._id)}
           >
             Remove
           </button>

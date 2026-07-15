@@ -534,7 +534,7 @@ setProperty(completeProperty);
             </section>
 
             {/* Highlights Section */}
-            <section className="prop-card">
+            {/* <section className="prop-card">
               <h3 className="prop-card__title">
                 <CheckCircle size={20} /> Property Highlights
               </h3>
@@ -546,7 +546,7 @@ setProperty(completeProperty);
                   </div>
                 ))}
               </div>
-            </section>
+            </section> */}
 
           </main>
 
@@ -590,7 +590,7 @@ setProperty(completeProperty);
 
                 {/* Sidebar Call to actions */}
                 <div className="seller-actions">
-                  <button className="sidebar-btn sidebar-btn--primary" onClick={() => setShowInquiryModal(true)}>
+                  {/* <button className="sidebar-btn sidebar-btn--primary" onClick={() => setShowInquiryModal(true)}>
                     <MessageSquare size={18} /> Contact Seller
                   </button>
                   <button className="sidebar-btn sidebar-btn--outline" onClick={() => setShowInquiryModal(true)}>
@@ -598,7 +598,7 @@ setProperty(completeProperty);
                   </button>
                   <button className="sidebar-btn sidebar-btn--outline" onClick={() => setShowVisitModal(true)}>
                     Schedule Visit
-                  </button>
+                  </button> */}
                   
                   <a
                     href={`https://wa.me/${(property.createdBy?.contact || "").replace(/[^0-9]/g, '')}?text=Hi%20${encodeURIComponent(property.createdBy?.fullname)},%20I'm%20interested%20in%20your%20property%20%22${encodeURIComponent(property.title)}%22%20on%20Property%20Point.`}

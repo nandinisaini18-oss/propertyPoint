@@ -12,11 +12,32 @@ const propertySchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ["Apartment", "Villa", "House", "Plot" , "Office", "Commercial"]
+        enum: [
+            "Apartment",
+            "Flat",
+            "Independent House",
+            "Villa",
+            "Farmhouse",
+
+            "Residential Plot",
+            "Agricultural Land",
+            "Commercial Plot",
+
+            "Office",
+            "Shop",
+            "Commercial Building",
+            "Warehouse"
+        ]
     },
     area: {
         type: Number,
         required: true
+    },
+
+    areaUnit: {
+        type: String,
+        enum: ["sqft", "acre"],
+        default: "sqft"
     },
     address: {
         type: String,

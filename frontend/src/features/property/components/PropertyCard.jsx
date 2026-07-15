@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from "react-redux";
+import {formatPrice} from "../../../utils/formatPrice"
 import { useAuth } from "../../auth/hook/useAuth";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import "./PropertyCard.css"
@@ -57,7 +58,6 @@ const {
 
 const isFavorite = (id) =>
     favorites.some(fav => fav._id === id);
-console.log(favorites[0]);
 
 const toggleFavorite = async (id) => {
     if (isFavorite(id)) {
@@ -94,7 +94,7 @@ const toggleFavorite = async (id) => {
       </div>
       
       <div className="property-card__content">
-        <div className="property-card__price">{property.price}</div>
+        <div className="property-card__price">{formatPrice(property.price)}</div>
         <h3 className="property-card__title">{property.title}</h3>
         <div className="property-card__location">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -117,7 +117,7 @@ const toggleFavorite = async (id) => {
           )}
           {property.area > 0 && (
             <div className="property-card__detail-item">
-              <span>📐</span> {property.area} sqft
+              <span>📐</span> {property.area} {property.areaUnit}
             </div>
           )}
         </div>

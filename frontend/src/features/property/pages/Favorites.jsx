@@ -7,6 +7,7 @@ import EmptyFavorites from '../components/EmptyFavorites';
 import RecommendedProperties from '../components/RecommendedProperties';
 import { recommendedProperties } from '../data/favoritesData';
 import './Favorites.css';
+import { Footer } from '../../home/components/Footer';
 
 const Favorites = () => {
   const favorites = useSelector(state => state.auth.favorites);

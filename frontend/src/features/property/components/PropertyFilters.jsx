@@ -1,6 +1,17 @@
 import React from 'react';
 
-const CATEGORIES = ['Apartment', 'Villa', 'House', 'Plot', 'Office', 'Commercial'];
+const CATEGORIES = ["Apartment",
+    "Flat",
+    "Independent House",
+    "Villa",
+    "Farmhouse",
+    "Residential Plot",
+    "Agricultural Land",
+    "Commercial Plot",
+    "Office",
+    "Shop",
+    "Commercial Building",
+    "Warehouse"];
 const AMENITIES = ['Parking', 'Lift', 'Garden', 'Gym', 'Swimming Pool', 'Security', 'Power Backup', 'WiFi'];
 
 const PropertyFilters = ({ filters, onChange, onApply, onReset }) => {

@@ -24,10 +24,16 @@ const SearchBar = ({ searchParams, onSearchChange, onSearchSubmit }) => {
           <option value="">Any Type</option>
           <option value="Apartment">Apartment</option>
           <option value="Villa">Villa</option>
-          <option value="House">House</option>
-          <option value="Plot">Plot</option>
+          <option value="Flat">Flat</option>
+          <option value="Independent House">Independent House</option>
+          <option value="Residential Plot">Residential Plot</option>
+          <option value="Commercial Plot">Commercial Plot</option>
+          <option value="Agricultural Land">Agricultural Land</option>
+          <option value="Warehouse">Warehouse</option>
+          <option value="Farmhouse">Farmhouse</option>
           <option value="Office">Office</option>
-          <option value="Commercial">Commercial</option>
+          <option value="Shop">Shop</option>
+          <option value="Commercial Building">Commercial Building</option>
         </select>
       </div>
 
@@ -41,8 +47,8 @@ const SearchBar = ({ searchParams, onSearchChange, onSearchSubmit }) => {
           <option value="">Any Budget</option>
           <option value="5000000">Up to ₹50 Lakh</option>
           <option value="10000000">Up to ₹1 Cr</option>
-          <option value="30000000">Up to ₹3 Cr</option>
           <option value="50000000">Up to ₹5 Cr</option>
+          <option value="200000000">Up to ₹20 Cr</option>
         </select>
       </div>
       
