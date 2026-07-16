@@ -137,12 +137,12 @@ useEffect(() => {
 
         {/* Filters Row */}
         <div className="bg-white border border-gray-200 rounded-2xl p-4 flex flex-col sm:flex-row gap-3">
-          <SearchBar
+          {/* <SearchBar
             value={search}
             onChange={setSearch}
             placeholder="Search properties or sellers..."
             className="flex-1"
-          />
+          /> */}
           <FilterDropdown
             label="All Categories"
             value={category}

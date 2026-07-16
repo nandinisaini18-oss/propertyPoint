@@ -120,40 +120,23 @@ const goTo = (idx) => setActive((idx + total) % total);
 <h1 className="lp-hero__title">
     {slide.title}
 </h1>
-        <div className="lp-hero__card">
-          <div className="lp-hero__card-item">
-            <span className="lp-hero__card-label">Price</span>
-            <span className="lp-hero__card-value price">{slide.price}</span>
-          </div>
-          <div className="lp-hero__card-item">
-            <span className="lp-hero__card-label">Category</span>
-            <span className="lp-hero__card-value">{slide.category}</span>
-          </div>
-          <div className="lp-hero__card-item">
-            <span className="lp-hero__card-label">Area</span>
-            <span className="lp-hero__card-value">{slide.area}</span>
-          </div>
-          {slide.bedrooms > 0 && (
-            <div className="lp-hero__card-item">
-              <span className="lp-hero__card-label">Bedrooms</span>
-              <span className="lp-hero__card-value">{slide.bedrooms} BHK</span>
-            </div>
-          )}
-          <div className="lp-hero__card-item">
-            <span className="lp-hero__card-label">Bathrooms</span>
-            <span className="lp-hero__card-value">{slide.bathrooms}</span>
-          </div>
-          <div className="lp-hero__card-item">
-            <span className="lp-hero__card-label">Location</span>
-            <span className="lp-hero__card-value">{slide.address}, {slide.city}</span>
-          </div>
-          <div className="lp-hero__card-item">
-            <span className="lp-hero__card-label">Status</span>
-            <span className={`lp-hero__card-badge lp-hero__card-badge--available`}>
-              ● ● {slide.status}
-            </span>
-          </div>
-        </div>
+        <div className="lp-hero__summary">
+
+    <div className="lp-price">
+        ₹ {slide.price?.toLocaleString("en-IN")}
+    </div>
+
+    <div className="lp-location">
+        📍 {slide.city}
+    </div>
+
+    <div className="lp-features">
+        {slide.bedrooms} BHK •
+        {slide.bathrooms} Bath •
+        {slide.area} sqft
+    </div>
+
+</div>
       </div>
 
       {/* Arrows */}

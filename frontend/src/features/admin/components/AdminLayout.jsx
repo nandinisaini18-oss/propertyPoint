@@ -94,7 +94,7 @@ export default function AdminLayout({ children }) {
 
             {/* Center: Search Bar (Desktop) */}
             <div className="hidden md:flex flex-1 max-w-md relative items-center">
-              <Search className="absolute left-3.5 w-4.5 h-4.5 text-gray-400 pointer-events-none" />
+              {/* <Search className="absolute left-3.5 w-4.5 h-4.5 text-gray-400 pointer-events-none" /> */}
               <input
                 type="text"
                 placeholder="Search properties, sellers, buyers..."

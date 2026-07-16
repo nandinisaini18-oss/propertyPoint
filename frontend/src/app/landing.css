@@ -1509,65 +1509,209 @@
   }
 }
 
-@media (max-width: 767px) {
-  :root {
-    --lp-section-gap: 64px;
+@media (max-width:992px){
+
+  .lp-hero{
+    height:85vh;
+    min-height:650px;
   }
 
-  .lp-hero {
-    max-height: 680px;
+  .lp-hero__info{
+    bottom:60px;
   }
 
-  .lp-hero__card {
-    flex-direction: column;
-    width: 100%;
+  .lp-hero__card{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    width:100%;
   }
 
-  .lp-hero__card-item {
-    border-right: none;
-    border-bottom: 1px solid var(--lp-grey-200);
-    padding: 12px 16px;
+  .lp-hero__card-item{
+    padding:14px;
   }
 
-  .lp-hero__card-item:last-child {
-    border-bottom: none;
-  }
-
-  .lp-prop-grid { grid-template-columns: 1fr; }
-  .lp-city-grid { grid-template-columns: 1fr; }
-  .lp-city-card:first-child { grid-column: span 1; aspect-ratio: 4/3; }
-  .lp-cat-grid { grid-template-columns: repeat(2, 1fr); }
-  .lp-why-grid { grid-template-columns: 1fr; }
-  .lp-testi-grid { grid-template-columns: 1fr; }
-  .lp-stats__grid { grid-template-columns: repeat(2, 1fr); }
-  .lp-footer__grid { grid-template-columns: 1fr; gap: 28px; }
-  .lp-footer__bottom { flex-direction: column; text-align: center; }
-
-  .lp-search-card {
-    grid-template-columns: 1fr;
-    padding: 20px;
-  }
-
-  .lp-hcarousel__track .lp-prop-card {
-    flex: 0 0 280px;
-  }
-
-  .lp-section-header {
-    margin-bottom: 36px;
-  }
-
-  .lp-hero__info {
-    bottom: 100px;
-  }
 }
 
-@media (max-width: 480px) {
-  .lp-cat-grid { grid-template-columns: repeat(3, 1fr); }
-  .lp-hero__title { font-size: 1.7rem; }
-  .lp-hero__card { display: grid; grid-template-columns: 1fr 1fr; }
-  .lp-hero__card-item {
-    border-right: 1px solid var(--lp-grey-200);
-    border-bottom: 1px solid var(--lp-grey-200);
+.lp-hero__summary{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+
+    background:rgba(255,255,255,.95);
+    padding:18px 20px;
+    border-radius:18px;
+
+    width:fit-content;
+    max-width:450px;
+}
+
+.lp-price{
+    font-size:30px;
+    font-weight:800;
+}
+
+.lp-location{
+    color:#666;
+    font-size:15px;
+}
+
+.lp-features{
+    font-size:15px;
+    font-weight:600;
+}
+
+@media (max-width: 767px) {
+
+  :root{
+    --lp-section-gap:64px;
   }
-  .lp-hero__card-item:nth-child(even) { border-right: none; }
+
+  .lp-hero{
+    min-height:100vh;
+    height:auto;
+  }
+
+  .lp-hero__overlay{
+    background:linear-gradient(
+      to top,
+      rgba(0,0,0,.85),
+      rgba(0,0,0,.45),
+      rgba(0,0,0,.2)
+    );
+  }
+
+  .lp-hero__info{
+    bottom:24px;
+    padding:0 16px;
+    width:100%;
+    gap:16px;
+  }
+
+  .lp-hero__title{
+    font-size:2rem;
+    max-width:100%;
+    line-height:1.2;
+  }
+
+  .lp-hero__card{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .lp-hero__card-item{
+    border-right:1px solid var(--lp-grey-200);
+    border-bottom:1px solid var(--lp-grey-200);
+    padding:12px;
+  }
+
+  .lp-hero__card-item:nth-child(even){
+    border-right:none;
+  }
+
+  .lp-hero__card-label{
+    font-size:10px;
+  }
+
+  .lp-hero__card-value{
+    font-size:13px;
+    white-space:normal;
+  }
+
+  .lp-hero__card-value.price{
+    font-size:18px;
+  }
+
+  .lp-hero__arrows{
+    display:none;
+  }
+
+  .lp-hero__dots{
+    bottom:10px;
+  }
+
+  .lp-prop-grid{
+    grid-template-columns:1fr;
+  }
+
+  .lp-city-grid{
+    grid-template-columns:1fr;
+  }
+
+  .lp-city-card:first-child{
+    grid-column:span 1;
+    aspect-ratio:4/3;
+  }
+
+  .lp-cat-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .lp-why-grid{
+    grid-template-columns:1fr;
+  }
+
+  .lp-testi-grid{
+    grid-template-columns:1fr;
+  }
+
+  .lp-stats__grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .lp-footer__grid{
+    grid-template-columns:1fr;
+  }
+
+  .lp-search-card{
+    grid-template-columns:1fr;
+    padding:20px;
+  }
+
+  .lp-hero__summary{
+
+    width:100%;
+    max-width:none;
+}
+
+.lp-price{
+    font-size:24px;
+}
+
+
+  .lp-search-wrapper {
+    margin-top: 0;
+  }
+
+}
+
+
+@media (max-width:480px){
+
+  .lp-hero{
+    min-height:95vh;
+  }
+
+  .lp-hero__title{
+    font-size:1.6rem;
+  }
+
+  .lp-hero__info{
+    padding:0 12px;
+  }
+
+  .lp-hero__card{
+    grid-template-columns:1fr;
+  }
+
+  .lp-hero__card-item{
+    border-right:none;
+    padding:10px 14px;
+  }
+
+  .lp-hero__arrow{
+    width:38px;
+    height:38px;
+  }
+
 }

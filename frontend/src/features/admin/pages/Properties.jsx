@@ -131,12 +131,12 @@ export default function AdminProperties() {
 
         {/* ─── Filters Row ─── */}
         <div className="bg-white border border-gray-200 rounded-2xl p-4 flex flex-col md:flex-row gap-3">
-          <SearchBar
+          {/* <SearchBar
             value={search}
             onChange={setSearch}
             placeholder="Search title, seller, ID..."
             className="flex-1"
-          />
+          /> */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <FilterDropdown
               label="All Categories"

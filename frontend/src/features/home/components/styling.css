@@ -64,3 +64,40 @@
     }
 
 }
+
+.lp-hero{
+    position:relative;
+    width:100%;
+    min-height:420px;
+    height:85vh;
+    max-height:760px;
+    overflow:hidden;
+}
+
+.lp-hero__info{
+    position:absolute;
+    left:7%;
+    bottom:8%;
+    width:min(90%,650px);
+    z-index:10;
+}
+
+@media (max-width:992px){
+
+.lp-hero__info{
+    left:5%;
+    right:5%;
+    width:auto;
+}
+
+}
+
+@media (max-width:768px){
+
+.lp-hero__info{
+    left:20px;
+    right:20px;
+    bottom:25px;
+}
+
+}
