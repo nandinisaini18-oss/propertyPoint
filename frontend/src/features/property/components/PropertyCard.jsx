@@ -43,13 +43,10 @@ const PropertyCard = ({ property }) => {
 
 // };
 const favorites = useSelector(state => state.auth.favorites);
-console.log("Favorites:", favorites);
-console.log("Is Array:", Array.isArray(favorites));
 
 favorites?.forEach((f, index) => {
     console.log(index, f);
 });
-console.log("Current Property:", property);
 
 const {
     handleAddFavorite,

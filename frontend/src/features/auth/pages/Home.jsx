@@ -2,7 +2,7 @@ import Navbar from "../../home/components/Navbar";
 import HeroCarousel from "../../home/components/HeroCarousel";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import SearchBar from "../../property/components/SearchBar"
+import SearchBar from "../../home/components/SearchBar";
 import FeaturedProperties from "../../home/components/FeaturedProperties";
 import BrowseByCategory from "../../home/components/BrowseByCategory";
 import BrowseByCity from "../../home/components/BrowseByCity";

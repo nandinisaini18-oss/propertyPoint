@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
+import {formatPrice} from "../../../utils/formatPrice"
 
 // Icons
 const HeartIcon = ({ filled }) => (
@@ -62,7 +62,7 @@ const PropertyCard = ({ property }) => {
 
       {/* Body */}
       <div className="lp-prop-card__body">
-        <div className="lp-prop-card__price">{price}</div>
+        <div className="lp-prop-card__price">{formatPrice(property.price)}</div>
         <div className="lp-prop-card__title">{title}</div>
         <div className="lp-prop-card__location">
           <LocationIcon />

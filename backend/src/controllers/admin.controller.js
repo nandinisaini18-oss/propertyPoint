@@ -288,3 +288,29 @@ export const dashboardStats = async (req, res) => {
 
     }
 };
+
+export const deleteProperty = async (req, res) => {
+    try {
+        const property = await propertyModel.findById(req.params.id);
+
+        if (!property) {
+            return res.status(404).json({
+                success: false,
+                message: "Property not found",
+            });
+        }
+
+        await property.deleteOne();
+
+        return res.status(200).json({
+            success: true,
+            message: "Property deleted successfully",
+        });
+
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: err.message,
+        });
+    }
+};

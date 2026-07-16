@@ -21,7 +21,7 @@ const BrowseByCity = () => {
 
     return (
         <section className="py-28 ">
-            <div className="max-w-7xl mx-auto pl-24 pr-8">
+            <div className="container mx-auto px-8">
                 <div className="text-center mb-12">
 
                     <h2 className="text-4xl font-bold text-stone-900 mt-2">

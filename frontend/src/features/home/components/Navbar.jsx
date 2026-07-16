@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FaRegHeart } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useAuth } from '../../auth/hook/useAuth';
 
 // SVG icons
 const IconHome = () => (
@@ -9,6 +11,13 @@ const IconHome = () => (
 );
 
 const Navbar = () => {
+  const navigate = useNavigate()
+  const logout = async () => {
+    await handleLogout();
+    navigate("/");
+};
+  const { user } = useSelector(state => state.auth);
+const { handleLogout } = useAuth();
   const [scrolled, setScrolled]   = useState(false);
   const [menuOpen, setMenuOpen]   = useState(false);
 
@@ -64,9 +73,34 @@ const Navbar = () => {
               <FaRegHeart />
             </Link>
 
-            <Link to="/login" className="lp-btn lp-btn--primary">
-              Login
-            </Link>
+            {!user ? (
+    <>
+        <Link to="/login" className="lp-btn lp-btn--outline">
+    Login
+</Link>
+
+<Link to="/register" className="lp-btn lp-btn--primary">
+    Register
+</Link>
+    </>
+) : user.role === "admin" ? (
+    <>
+        <Link to="/admin/dashboard" className="lp-btn lp-btn--outline">
+    Dashboard
+</Link>
+
+<button className="lp-btn lp-btn--primary" onClick={logout}>
+    Logout
+</button>
+    </>
+) : (
+    <>
+
+<button className="lp-btn lp-btn--primary" onClick={logout}>
+    Logout
+</button>
+    </>
+)}
           </div>
 
           {/* Hamburger */}

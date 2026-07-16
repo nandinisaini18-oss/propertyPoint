@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import './CreateProperty.css';
 import useProperty from "../hook/useProperty"
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const AMENITIES_LIST = [
   'Parking',
@@ -15,6 +16,7 @@ const AMENITIES_LIST = [
   "Children's Play Area"
 ];
 const CreateProperty = () => {
+  const navigate = useNavigate()
   const { handleCreateProperty } = useProperty();
   const [form, setForm] = useState({
     title: '',
@@ -34,6 +36,7 @@ const CreateProperty = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const fileInputRef = useRef(null);
   const validate = () => {
     const newErrors = {};
@@ -146,7 +149,26 @@ const CreateProperty = () => {
 
           const res = await handleCreateProperty(formData);
 
-          console.log(res);
+if (res?.success) {
+  setShowSuccessModal(true);
+
+  // Optional: Clear the form
+  setForm({
+    title: "",
+    description: "",
+    category: "",
+    address: "",
+    city: "",
+    state: "",
+    price: "",
+    area: "",
+    areaUnit: "sqft",
+    bedrooms: "",
+    bathrooms: "",
+    amenities: [],
+    images: [],
+  });
+}
 
       } catch (err) {
           console.log(err);
@@ -456,6 +478,30 @@ const CreateProperty = () => {
           </div>
         </form>
       </div>
+      {showSuccessModal && (
+  <div className="cp-modal-overlay">
+    <div className="cp-success-modal">
+      <div className="cp-success-icon">
+        ✓
+      </div>
+
+      <h2>Property Submitted!</h2>
+
+      <p>
+        Your property has been created successfully.
+        <br />
+        It is now waiting for admin approval before it becomes visible to buyers.
+      </p>
+
+      <button
+        onClick={() => setShowSuccessModal(false)}
+        className="cp-btn-primary"
+      >
+        Okay
+      </button>
+    </div>
+  </div>
+)}
     </div>
   );
 };

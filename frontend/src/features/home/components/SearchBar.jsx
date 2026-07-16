@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
 
 const SearchIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -10,6 +9,7 @@ const SearchIcon = () => (
 );
 
 const SearchBar = () => {
+  console.log("SearchBar rendered");
   const navigate = useNavigate();
   const [form, setForm] = useState({
     location: '',
@@ -24,9 +24,9 @@ const SearchBar = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-
+    console.log("Search clicked");
     const params = new URLSearchParams();
-
+    console.log(form);
     if (form.location)
         params.append("city", form.location);
 
@@ -38,6 +38,7 @@ const SearchBar = () => {
 
     if (form.maxPrice)
         params.append("maxPrice", form.maxPrice);
+      console.log(params.toString());
 
     navigate(`/properties?${params.toString()}`);
 };
@@ -66,12 +67,18 @@ const SearchBar = () => {
             onChange={handleChange('category')}
           >
             <option value="">All Types</option>
-            <option>Apartment</option>
-            <option>Villa</option>
-            <option>Independent House</option>
-            <option>Commercial</option>
-            <option>Office</option>
-            <option>Plot</option>
+            <option value="Apartment">Apartment</option>
+            <option value="Flat">Flat</option>
+            <option value="Villa">Villa</option>
+            <option value="Independent House">Independent House</option>
+            <option value="Farmhouse">Farmhouse</option>
+            <option value="Residential Plot">Residential Plot</option>
+            <option value="Agricultural Land">Agricultural Land</option>
+            <option value="Commercial Plot">Commercial Plot</option>
+            <option value="Commercial Building">Commercial Building</option>
+            <option value="Office">Office</option>
+            <option value="Shop">Shop</option>
+            <option value="Warehouse">Warehouse</option>
           </select>
         </div>
 
@@ -110,10 +117,14 @@ const SearchBar = () => {
         </div>
 
         {/* Search Button */}
-        <button type="submit" className="lp-search-btn">
-          <SearchIcon />
-          Search
-        </button>
+        <button
+  type="submit"
+  className="lp-search-btn"
+  onClick={() => console.log("Button clicked")}
+>
+  <SearchIcon />
+  Search
+</button>
       </form>
     </div>
   );

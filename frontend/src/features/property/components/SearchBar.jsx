@@ -1,6 +1,14 @@
 import React from 'react';
 
-const SearchBar = ({ searchParams, onSearchChange, onSearchSubmit }) => {
+const SearchBar = ({
+  searchParams = {
+    city: "",
+    category: "",
+    budget: "",
+  },
+  onSearchChange = () => {},
+  onSearchSubmit = () => {},
+}) => {
   return (
     <form className="search-bar" onSubmit={(e) => { e.preventDefault(); onSearchSubmit(); }}>
       <div className="search-bar__group">

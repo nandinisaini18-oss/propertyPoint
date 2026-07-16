@@ -167,7 +167,7 @@ if (data.user.role === "admin") {
             />
             <span className="checkbox-label">Remember me</span>
           </label>
-          <a href="#forgot" className="forgot-link">Forgot Password?</a>
+          {/* <a href="#forgot" className="forgot-link">Forgot Password?</a> */}
         </div>
 
         {/* Submit */}

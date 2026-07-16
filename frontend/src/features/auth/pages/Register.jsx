@@ -106,7 +106,6 @@ const Register = () => {
             email: form.email,
             password: form.password,
             contact: form.phone,
-            role: form.role,
         });
 
         navigate("/login");
@@ -327,44 +326,7 @@ const Register = () => {
           )}
         </div>
 
-        {/* Role Selector */}
-        <div className="form-group">
-          <span className="form-label" id="role-label">I am a</span>
-          <div className="role-selector" role="radiogroup" aria-labelledby="role-label">
-            {/* Buyer */}
-            <div className="role-option">
-              <input
-                type="radio"
-                id="role-buyer"
-                name="role"
-                value="user"
-                checked={form.role === 'user'}
-                onChange={() => handleRoleChange('user')}
-                disabled={loading}
-              />
-              <label htmlFor="role-buyer" className="role-option__label">
-                <span className="role-option__icon"><IconHome /></span>
-                <span className="role-option__text">Buyer</span>
-              </label>
-            </div>
-            {/* Property Owner */}
-            <div className="role-option">
-              <input
-                type="radio"
-                id="role-owner"
-                name="role"
-                value="owner"
-                checked={form.role === 'owner'}
-                onChange={() => handleRoleChange('owner')}
-                disabled={loading}
-              />
-              <label htmlFor="role-owner" className="role-option__label">
-                <span className="role-option__icon"><IconBriefcase /></span>
-                <span className="role-option__text">Property Owner</span>
-              </label>
-            </div>
-          </div>
-        </div>
+       
 
         {/* Submit */}
         <button

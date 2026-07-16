@@ -10,6 +10,7 @@ import {
     getInquiryById,
     updateInquiryStatus,
     dashboardStats,
+    deleteProperty
 } from "../controllers/admin.controller.js";
 
 import {
@@ -72,6 +73,13 @@ adminRouter.patch(
     authenticateUser,
     authenticateAdmin,
     markPropertyAsSold
+);
+
+adminRouter.delete(
+    "/properties/:id",
+    authenticateUser,
+    authenticateAdmin,
+    deleteProperty
 );
 
 /* ===========================

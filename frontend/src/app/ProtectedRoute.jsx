@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children }) => {
 
 console.log({ loading, user });
 
-if (loading) return <Spinner />;
+// if (loading) return <Spinner />;
 
 if (!user) return <Navigate to="/login" />;
 return children;

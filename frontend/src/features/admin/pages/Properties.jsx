@@ -256,7 +256,7 @@ export default function AdminProperties() {
               {/* Image */}
               <div className="h-48 rounded-xl overflow-hidden bg-gray-50 border border-gray-150">
                 <img
-                  src={selectedProperty.images?.[0]|| "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80"}
+                  src={selectedProperty.propertyImages?.[0] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80"}
                   alt={selectedProperty.title}
                   className="w-full h-full object-cover"
                 />
@@ -305,11 +305,11 @@ export default function AdminProperties() {
                     <div className="text-[10px] text-gray-400 space-y-0.5 mt-0.5">
                       <p className="flex items-center gap-1">
                         <Mail className="w-3 h-3 text-gray-400" />
-                        {selectedProperty.seller.email}
+                        {selectedProperty.seller?.email}
                       </p>
                       <p className="flex items-center gap-1">
                         <Phone className="w-3 h-3 text-gray-400" />
-                        {selectedProperty.seller.contact}
+                        {selectedProperty.seller?.contact}
                       </p>
                     </div>
                   </div>
