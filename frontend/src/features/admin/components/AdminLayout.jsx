@@ -64,8 +64,8 @@ export default function AdminLayout({ children }) {
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans" style={{ fontFamily: "'Inter', sans-serif" }}>
       {/* ─── Sticky Header ─── */}
       <header className="sticky top-0 z-30 bg-white border-b border-gray-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-18 gap-4">
+        <div className="max-w-7xl">
+          <div className="flex items-center justify-end h-18 gap-60">
             
             {/* Left: Logo & Brand */}
             <div className="flex items-center gap-3">
@@ -100,8 +100,8 @@ export default function AdminLayout({ children }) {
                 placeholder="Search properties, sellers, buyers..."
                 value={searchVal}
                 onChange={(e) => setSearchVal(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 text-sm bg-gray-50 border border-gray-200 rounded-xl
-                  text-gray-800 placeholder-gray-400 focus:bg-white
+                className="w-full pl-10 pr-10 py-6 text-md bg-gray-50 border border-gray-200 rounded-sm
+                  text-black-800 placeholder-gray-400 focus:bg-white
                   focus:outline-none focus:ring-2 focus:ring-blue-100 focus:border-blue-500 transition-all duration-200"
               />
             </div>
@@ -206,15 +206,15 @@ export default function AdminLayout({ children }) {
                   <div className="w-8.5 h-8.5 rounded-full bg-gray-900 flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
                     A
                   </div>
-                  <div className="hidden md:block text-left">
-                    <p className="text-xs font-semibold text-gray-900 leading-tight">Admin User</p>
-                    <p className="text-[10px] text-gray-400">Super Admin</p>
+                  <div className="hidden px-10 md:block text-left">
+                    <p className="text-xs font-semibold text-gray-900 ">Admin User</p>
+                    <p className="text-[10px] text-gray-400">admin@360views.in</p>
                   </div>
                   <ChevronDown className="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-colors" strokeWidth={1.8} />
                 </div>
 
                 {profileOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                  <div className="absolute right-0 mt-2 w-60 bg-white border border-gray-200 rounded-xs shadow-lg overflow-hidden z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                     <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/30">
                       <p className="text-xs font-semibold text-gray-900">Admin User</p>
                       <p className="text-[10px] text-gray-400 truncate">admin@360views.in</p>
@@ -241,13 +241,13 @@ export default function AdminLayout({ children }) {
       {/* ─── Horizontal Navigation Bar (Desktop) ─── */}
       <nav className="hidden md:block bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center h-14 gap-2">
+          <div className="flex items-center justify-center gap-50 h-15">
             {NAV_ITEMS.map((item) => (
               <NavLink
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+                  `flex items-center gap-2 px-4 py-2 rounded-xl text-md font-bold uppercase tracking-wider transition-all duration-200 ${
                     isActive
                       ? "bg-gray-100 text-gray-900"
                       : "text-gray-500 hover:bg-gray-50 hover:text-gray-800"
@@ -261,7 +261,7 @@ export default function AdminLayout({ children }) {
             
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 ml-auto rounded-xl text-xs font-bold uppercase tracking-wider text-gray-400 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl text-md font-bold uppercase tracking-wider text-gray-400 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
             >
               <LogOut className="w-4 h-4 flex-shrink-0" strokeWidth={2} />
               Logout

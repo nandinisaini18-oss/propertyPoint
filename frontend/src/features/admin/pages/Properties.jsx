@@ -9,7 +9,18 @@ import EmptyState from "../components/EmptyState";
 import StatusBadge from "../components/StatusBadge";
 import useAdmin from "../hook/useAdmin";
 
-const CATEGORIES = ["Villa", "Apartment", "House", "Office", "Commercial"];
+const CATEGORIES = [
+  "Apartment",
+  "Villa",
+  "Independent House",
+  "Farm House",
+  "Residential Plot",
+  "Commercial Plot",
+  "Office",
+  "Shop",
+  "Warehouse",
+  "Agricultural Land"
+];
 const CITIES = ["Bhopal", "Indore", "Delhi", "Mumbai", "Pune", "Bangalore"];
 const STATUSES = [
   { label: "For Sale", value: "For Sale" },
@@ -120,17 +131,17 @@ export default function AdminProperties() {
         {/* Header Title */}
         <div className="flex items-end justify-between">
     <div>
-        <p className="uppercase tracking-[4px] text-xs text-stone-500 font-semibold">
+        {/* <p className="uppercase tracking-[4px] text-xs text-stone-500 font-semibold">
             Admin Panel
-        </p>
+        </p> */}
 
         <h1 className="text-4xl font-bold text-stone-900 mt-2">
             Property Listings
         </h1>
-
-        <p className="text-stone-500 mt-2">
+            <br />
+        {/* <p className="text-stone-500 mt-2">
             Manage all listed properties across the platform.
-        </p>
+        </p> */}
     </div>
 
     <div className="mb-4">
@@ -148,7 +159,7 @@ export default function AdminProperties() {
             placeholder="Search title, seller, ID..."
             className="flex-1"
           /> */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-30">
             <FilterDropdown
               label="All Categories"
               value={category}
@@ -163,18 +174,12 @@ export default function AdminProperties() {
               options={CITIES}
               className="w-full sm:w-40"
             />
-            <FilterDropdown
-              label="All Statuses"
-              value={status}
-              onChange={setStatus}
-              options={STATUSES}
-              className="w-full sm:w-40"
-            />
           </div>
         </div>
 
         {/* Count Indicator */}
         <div className="flex justify-between items-center">
+            <br />
     <p className="text-stone-500">
         Showing
         <span className="font-semibold text-stone-900">

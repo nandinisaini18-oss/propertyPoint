@@ -24,9 +24,9 @@ export default function PropertyTable({ properties, onView, onMarkSold, onDelete
   };
 
   return (
-    <div className="overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-xs border border-stone-200 bg-white shadow-sm">
       <div className="overflow-x-auto">
-        <table className="min-w-full border-separate border-spacing-0">
+        <table className="min-w-full border-separate border-spacing-2">
           <thead>
             <tr className="border-b border-stone-200 bg-stone-50">
               <th className="px-8 py-5 text-xs font-semibold uppercase tracking-[0.18em] text-stone-500">Property</th>

@@ -141,9 +141,11 @@ useEffect(() => {
           <h1 className="text-2xl font-bold text-gray-900 tracking-tight" style={{ fontFamily: "'Manrope', sans-serif" }}>
             Pending Approval Requests
           </h1>
+          <br />
           <p className="text-sm text-gray-500 mt-1">
             Review, inspect, approve, or reject new property submissions from sellers.
           </p>
+          <br />
         </div>
 
         {/* Filters Row */}
@@ -169,14 +171,14 @@ useEffect(() => {
             className="sm:w-40"
           />
         </div>
-
+            <br />
         {/* Count Indicator */}
         {!loading && (
           <p className="text-sm font-semibold text-gray-500 px-1 leading-none">
             Showing <span className="text-gray-900 font-bold">{filteredPending.length}</span> pending approvals
           </p>
         )}
-
+        <br />
         {/* Grid Cards Container */}
         {loading ? (
           <div className="flex justify-center items-center py-24">
