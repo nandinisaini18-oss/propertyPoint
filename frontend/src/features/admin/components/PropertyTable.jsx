@@ -91,7 +91,7 @@ console.log("createdBy:", p.createdBy);
       </p>
 
       <p className="text-xs text-stone-500">
-        {p.createdBy?.email}
+        {p.createdBy?.contact}
       </p>
     </div>
   </div>
