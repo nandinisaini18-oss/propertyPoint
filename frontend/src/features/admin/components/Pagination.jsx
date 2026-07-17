@@ -1,66 +1,118 @@
-// ─── Pagination ────────────────────────────────────────────────────────────────
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const Pagination = ({ currentPage, totalPages, onPageChange, totalItems, itemsPerPage }) => {
+const Pagination = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  totalItems,
+  itemsPerPage,
+}) => {
   const start = (currentPage - 1) * itemsPerPage + 1;
-  const end   = Math.min(currentPage * itemsPerPage, totalItems);
+  const end = Math.min(currentPage * itemsPerPage, totalItems);
 
-  const pages = [];
-  for (let i = 1; i <= totalPages; i++) pages.push(i);
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   const visible = (() => {
     if (totalPages <= 5) return pages;
+
     if (currentPage <= 3) return [1, 2, 3, 4, 5];
-    if (currentPage >= totalPages - 2) return pages.slice(-5);
-    return [currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2];
+
+    if (currentPage >= totalPages - 2)
+      return pages.slice(totalPages - 5);
+
+    return [
+      currentPage - 2,
+      currentPage - 1,
+      currentPage,
+      currentPage + 1,
+      currentPage + 2,
+    ];
   })();
 
-  const btnBase = "w-9 h-9 rounded-xl text-sm font-medium transition-all duration-150 flex items-center justify-center";
-  const btnInactive = `${btnBase} border border-gray-200 bg-white text-gray-600 hover:bg-gray-50`;
-  const btnActive   = `${btnBase} bg-gray-900 text-white border border-gray-900`;
+  const base =
+    "w-11 h-11 flex items-center justify-center rounded-2xl text-sm font-semibold transition";
+
+  const inactive =
+    `${base} bg-white border border-stone-200 text-stone-600 hover:border-stone-400 hover:bg-stone-50`;
+
+  const active =
+    `${base} bg-stone-900 text-white border border-stone-900 shadow-sm`;
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-5 border-t border-gray-100 mt-2">
-      <p className="text-sm text-gray-400">
-        Showing <span className="font-semibold text-gray-700">{start}–{end}</span> of{" "}
-        <span className="font-semibold text-gray-700">{totalItems}</span>
-      </p>
-      <div className="flex items-center gap-1">
+    <div className="mt-8 flex flex-col gap-5 border-t border-stone-200 pt-6 lg:flex-row lg:items-center lg:justify-between">
+
+      {/* Left */}
+      <div className="text-sm text-stone-500">
+        Showing{" "}
+        <span className="font-semibold text-stone-900">
+          {start} – {end}
+        </span>{" "}
+        of{" "}
+        <span className="font-semibold text-stone-900">
+          {totalItems}
+        </span>{" "}
+        properties
+      </div>
+
+      {/* Right */}
+      <div className="flex items-center gap-2">
+
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className={`${btnInactive} disabled:opacity-40 disabled:cursor-not-allowed`}
+          className={`${inactive} disabled:opacity-40 disabled:pointer-events-none`}
         >
-          <ChevronLeft className="w-4 h-4" />
+          <ChevronLeft className="w-5 h-5" />
         </button>
 
         {visible[0] > 1 && (
           <>
-            <button onClick={() => onPageChange(1)} className={btnInactive}>1</button>
-            {visible[0] > 2 && <span className="px-1 text-gray-400">…</span>}
+            <button
+              onClick={() => onPageChange(1)}
+              className={inactive}
+            >
+              1
+            </button>
+
+            {visible[0] > 2 && (
+              <span className="px-2 text-stone-400">•••</span>
+            )}
           </>
         )}
 
-        {visible.map((p) => (
-          <button key={p} onClick={() => onPageChange(p)} className={p === currentPage ? btnActive : btnInactive}>
-            {p}
+        {visible.map((page) => (
+          <button
+            key={page}
+            onClick={() => onPageChange(page)}
+            className={page === currentPage ? active : inactive}
+          >
+            {page}
           </button>
         ))}
 
-        {visible.at(-1) < totalPages && (
+        {visible[visible.length - 1] < totalPages && (
           <>
-            {visible.at(-1) < totalPages - 1 && <span className="px-1 text-gray-400">…</span>}
-            <button onClick={() => onPageChange(totalPages)} className={btnInactive}>{totalPages}</button>
+            {visible[visible.length - 1] < totalPages - 1 && (
+              <span className="px-2 text-stone-400">•••</span>
+            )}
+
+            <button
+              onClick={() => onPageChange(totalPages)}
+              className={inactive}
+            >
+              {totalPages}
+            </button>
           </>
         )}
 
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className={`${btnInactive} disabled:opacity-40 disabled:cursor-not-allowed`}
+          className={`${inactive} disabled:opacity-40 disabled:pointer-events-none`}
         >
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="w-5 h-5" />
         </button>
+
       </div>
     </div>
   );

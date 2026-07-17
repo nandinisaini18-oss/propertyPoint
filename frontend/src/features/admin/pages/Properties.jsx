@@ -59,7 +59,7 @@ export default function AdminProperties() {
       const matchesSearch =
         !search ||
         p.title.toLowerCase().includes(search.toLowerCase()) ||
-        p.seller?.fullname?.toLowerCase().includes(search.toLowerCase()) ||
+        p.createdBy?.fullname?.toLowerCase().includes(search.toLowerCase()) ||
         p._id.includes(search);
       const matchesCategory = !category || p.category === category;
       const matchesCity = !city || p.city === city;
@@ -118,16 +118,27 @@ export default function AdminProperties() {
       <div className="space-y-6 text-left animate-in fade-in duration-300">
         
         {/* Header Title */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 tracking-tight" style={{ fontFamily: "'Manrope', sans-serif" }}>
-              Properties Management
-            </h1>
-            <p className="text-sm text-gray-500 mt-1">
-              Browse, filter, mark as sold, and delete platform properties listings.
-            </p>
-          </div>
-        </div>
+        <div className="flex items-end justify-between">
+    <div>
+        <p className="uppercase tracking-[4px] text-xs text-stone-500 font-semibold">
+            Admin Panel
+        </p>
+
+        <h1 className="text-4xl font-bold text-stone-900 mt-2">
+            Property Listings
+        </h1>
+
+        <p className="text-stone-500 mt-2">
+            Manage all listed properties across the platform.
+        </p>
+    </div>
+
+    <div className="mb-4">
+    <p className="text-xs uppercase tracking-[3px] text-stone-500">
+        Filters
+    </p>
+</div>
+</div>
 
         {/* ─── Filters Row ─── */}
         <div className="bg-white border border-gray-200 rounded-2xl p-4 flex flex-col md:flex-row gap-3">
@@ -163,15 +174,20 @@ export default function AdminProperties() {
         </div>
 
         {/* Count Indicator */}
-        {!loading && (
-          <p className="text-sm font-semibold text-gray-500 px-1 leading-none">
-            Showing <span className="text-gray-900 font-bold">{filteredProperties.length}</span> listed properties
-          </p>
-        )}
+        <div className="flex justify-between items-center">
+    <p className="text-stone-500">
+        Showing
+        <span className="font-semibold text-stone-900">
+            {" "}
+            {filteredProperties.length}
+        </span>
+        {" "}properties
+    </p>
+</div>
 
         {/* ─── Table Section ─── */}
         {loading ? (
-          <div className="bg-white border border-gray-200 rounded-2xl p-6 text-center space-y-4 shadow-xs">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 text-center space-y-8 shadow-xs">
             <div className="flex items-center justify-center py-16">
               <div className="w-8 h-8 border-4 border-gray-200 border-t-gray-800 rounded-full animate-spin" />
             </div>
@@ -239,7 +255,7 @@ export default function AdminProperties() {
           <div className="relative bg-white border border-gray-200 rounded-2xl shadow-xl w-full max-w-lg z-10 overflow-hidden animate-in zoom-in-95 duration-150 flex flex-col max-h-[90vh]">
             
             {/* Header */}
-            <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+            <div className="px-6 py-6 border-b border-gray-100 flex items-center justify-between">
               <h3 className="font-bold text-gray-900 text-sm" style={{ fontFamily: "'Manrope', sans-serif" }}>
                 Property Details Info
               </h3>
@@ -268,7 +284,7 @@ export default function AdminProperties() {
                   {selectedProperty.title}
                 </h2>
                 <div className="flex items-center gap-3">
-                  <span className="text-base font-extrabold text-gray-950">{selectedProperty.price.toLocaleString("en-IN")}</span>
+                  <span className="text-base font-extrabold text-gray-950">₹ {selectedProperty.price.toLocaleString("en-IN")}</span>
                   <StatusBadge status={selectedProperty.status} />
                 </div>
               </div>
@@ -298,18 +314,20 @@ export default function AdminProperties() {
                 <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Seller Contact details</p>
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-700 text-xs border border-gray-200">
-                    {selectedProperty.seller?.fullname.charAt(0)}
+                    {selectedProperty.createdBy?.fullname?.charAt(0) || "U"}
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-gray-800">{selectedProperty.seller}</p>
+                    <p className="text-xs font-bold text-gray-800">
+  {selectedProperty.createdBy?.fullname}
+</p>
                     <div className="text-[10px] text-gray-400 space-y-0.5 mt-0.5">
                       <p className="flex items-center gap-1">
                         <Mail className="w-3 h-3 text-gray-400" />
-                        {selectedProperty.seller?.email}
+                        {selectedProperty.createdBy?.email}
                       </p>
                       <p className="flex items-center gap-1">
                         <Phone className="w-3 h-3 text-gray-400" />
-                        {selectedProperty.seller?.contact}
+                        {selectedProperty.createdBy?.contact}
                       </p>
                     </div>
                   </div>

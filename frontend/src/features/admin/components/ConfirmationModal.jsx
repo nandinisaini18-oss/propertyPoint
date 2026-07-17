@@ -14,69 +14,73 @@ export default function ConfirmationModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/35 backdrop-blur-xs animate-fade-in"
         onClick={onClose}
+        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
       />
 
-      {/* Modal Card */}
-      <div className="relative bg-white border border-gray-200 rounded-2xl shadow-xl w-full max-w-md z-10 overflow-hidden animate-in zoom-in-95 duration-150">
-        
-        {/* Header / Title */}
-        <div className="px-6 pt-6 pb-4 flex items-start justify-between gap-4">
-          <div className="flex items-center gap-3">
+      {/* Modal */}
+      <div className="relative z-10 w-full max-w-md overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-2xl">
+
+        {/* Header */}
+        <div className="flex items-start justify-between px-8 pt-8">
+
+          <div className="flex gap-4">
+
             {isDanger && (
-              <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center flex-shrink-0">
-                <AlertTriangle className="w-5 h-5 text-red-500" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50">
+                <AlertTriangle className="h-6 w-6 text-red-600" />
               </div>
             )}
+
             <div>
-              <h3 className="text-base font-bold text-gray-900 leading-snug" style={{ fontFamily: "'Manrope', sans-serif" }}>
+              <h2 className="text-xl font-bold text-stone-900">
                 {title}
-              </h3>
+              </h2>
+
+              <p className="mt-3 text-sm leading-7 text-stone-500">
+                {message}
+              </p>
             </div>
+
           </div>
+
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-150 transition-colors focus:outline-none"
+            className="rounded-xl p-2 text-stone-400 transition hover:bg-stone-100 hover:text-stone-700"
           >
-            <X className="w-4 h-4" />
+            <X className="h-5 w-5" />
           </button>
+
         </div>
 
-        {/* Message Body */}
-        <div className="px-6 pb-6">
-          <p className="text-sm text-gray-650 leading-relaxed">
-            {message}
-          </p>
-        </div>
+        {/* Footer */}
+        <div className="mt-8 flex justify-end gap-3 border-t border-stone-200 bg-stone-50 px-8 py-6">
 
-        {/* Actions Footer */}
-        <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-end gap-2.5">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-xs font-semibold text-gray-750 bg-white border border-gray-200 hover:bg-gray-50 rounded-xl transition-all duration-200"
+            className="rounded-xl border border-stone-300 bg-white px-5 py-2.5 font-medium text-stone-700 transition hover:bg-stone-100"
           >
             {cancelText}
           </button>
-          
+
           <button
             onClick={() => {
               onConfirm();
               onClose();
             }}
-            className={`px-4 py-2 text-xs font-bold text-white rounded-xl transition-all duration-200 active:scale-[0.98] ${
+            className={`rounded-xl px-5 py-2.5 font-semibold text-white transition ${
               isDanger
-                ? "bg-red-600 hover:bg-red-700 shadow-xs"
-                : "bg-blue-600 hover:bg-blue-700 shadow-xs"
+                ? "bg-red-600 hover:bg-red-700"
+                : "bg-stone-900 hover:bg-stone-800"
             }`}
           >
             {confirmText}
           </button>
-        </div>
 
+        </div>
       </div>
     </div>
   );

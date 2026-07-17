@@ -9,7 +9,18 @@ import EmptyState from "../components/EmptyState";
 import StatusBadge from "../components/StatusBadge";
 import useAdmin from "../hook/useAdmin";
 
-const CATEGORIES = ["Villa", "Apartment", "House", "Office", "Commercial"];
+const CATEGORIES = [
+  "Apartment",
+  "Villa",
+  "Independent House",
+  "Farm House",
+  "Residential Plot",
+  "Commercial Plot",
+  "Office",
+  "Shop",
+  "Warehouse",
+  "Agricultural Land"
+];
 const CITIES = ["Bhopal", "Indore", "Delhi", "Mumbai", "Pune", "Bangalore"];
 
 export default function PendingRequests() {

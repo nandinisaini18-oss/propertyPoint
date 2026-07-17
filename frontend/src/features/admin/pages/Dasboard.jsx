@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Building2, Clock, CheckCircle2, ChevronRight, User,
+import { Building2, ChevronRight, User, Clock, CheckCircle2 , 
   X,
   Mail,
   Phone } from "lucide-react";
@@ -9,7 +9,8 @@ import StatCard from "../components/StatCard";
 import StatusBadge from "../components/StatusBadge";
 import EmptyState from "../components/EmptyState";
 import PropertyCard from "../components/PropertyCard";
-import { StatCardSkeleton, CardSkeleton } from "../components/LoadingSkeleton";
+
+import { CardSkeleton , StatCardSkeleton} from "../components/LoadingSkeleton";
 import useAdmin from "../hook/useAdmin";
 
 export default function Dashboard() {
@@ -21,6 +22,30 @@ export default function Dashboard() {
     handleGetAllProperties,
     handleGetPendingProperties,
   } = useAdmin();
+
+  const statsConfig = [
+  {
+    title: "Total Properties",
+    value: dashboardStats?.totalProperties || 0,
+    icon: Building2,
+  },
+  {
+    title: "Pending",
+    value: dashboardStats?.pendingProperties || 0,
+    icon: Clock,
+  },
+  {
+    title: "Approved",
+    value: dashboardStats?.approvedProperties || 0,
+    icon: CheckCircle2,
+  },
+  {
+    title: "Users",
+    value: dashboardStats?.totalUsers || 0,
+    icon: User,
+  },
+];
+
 
   const [loading, setLoading] = useState(true);
   const [selectedProperty, setSelectedProperty] = useState(null);
@@ -44,42 +69,254 @@ export default function Dashboard() {
 
   return (
     <AdminLayout>
-      <div className="space-y-8 text-left animate-in fade-in duration-300">
+      <div className="space-y-10 text-left animate-in fade-in duration-300">
         
         {/* Header Title */}
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight" style={{ fontFamily: "'Manrope', sans-serif" }}>
-            Dashboard Overview
-          </h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Real-time analytics and activity summary for 360Views.
-          </p>
+        <div className="flex items-end justify-between">
+    <div>
+        <p className="uppercase tracking-[4px] text-xs text-stone-500 font-semibold">
+            Admin Panel
+        </p>
+
+        <h1 className="text-4xl font-bold text-stone-900 mt-2">
+            Dashboard
+        </h1>
+
+        <p className="text-stone-500 mt-2">
+            Review new property submissions and monitor platform activity.
+        </p>
+    </div>
+
+    <div className="hidden lg:block">
+        <div className="bg-white rounded-3xl border border-stone-200 px-8 py-5">
+            <p className="text-xs uppercase tracking-widest text-stone-500">
+                Pending
+            </p>
+
+            <h2 className="text-4xl font-bold mt-1">
+                {pendingProperties.length}
+            </h2>
+        </div>
+    </div>
+</div>
+
+        {/* ─── Statistics Cards ─── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+    {loading
+        ? Array.from({ length: 4 }).map((_, i) => (
+            <StatCardSkeleton key={i} />
+        ))
+        : statsConfig.map((card, i) => (
+            <StatCard
+                key={card.title}
+                {...card}
+                delay={i * 70}
+            />
+        ))}
+</div>
+
+
+<div className="bg-white border border-gray-200 rounded-2xl p-6">
+    <h3 className="text-lg font-bold">
+        Recent Activity
+    </h3>
+
+    <div className="mt-5 space-y-5">
+
+        <div className="flex gap-3">
+            <div className="w-2 h-2 rounded-full bg-gray-900 mt-2"></div>
+
+            <div>
+                <p className="font-medium">
+                    New property submitted
+                </p>
+
+                <p className="text-sm text-gray-500">
+                    10 minutes ago
+                </p>
+            </div>
         </div>
 
-        {/* ─── Statistics Cards ───
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {loading
-            ? Array.from({ length: 4 }).map((_, i) => <StatCardSkeleton key={i} />)
-            : statsConfig.map((card, i) => (
-                <StatCard key={card.title} {...card} delay={i * 75} />
-              ))}
-        </div> */}
+        <div className="flex gap-3">
+            <div className="w-2 h-2 rounded-full bg-gray-400 mt-2"></div>
+
+            <div>
+                <p className="font-medium">
+                    Property approved
+                </p>
+
+                <p className="text-sm text-gray-500">
+                    45 minutes ago
+                </p>
+            </div>
+        </div>
+
+        <div className="flex gap-3">
+            <div className="w-2 h-2 rounded-full bg-gray-300 mt-2"></div>
+
+            <div>
+                <p className="font-medium">
+                    New user registered
+                </p>
+
+                <p className="text-sm text-gray-500">
+                    Today
+                </p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div className="bg-white border border-gray-200 rounded-2xl p-6">
+
+    <div className="flex justify-between items-center">
+
+        <div>
+
+            <h3 className="text-lg font-bold">
+                Platform Overview
+            </h3>
+
+            <p className="text-sm text-gray-500 mt-1">
+                Current marketplace summary
+            </p>
+
+        </div>
+
+    </div>
+
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+
+        <div>
+            <p className="text-sm text-gray-500">
+                Total Listings
+            </p>
+
+            <p className="text-3xl font-bold mt-2">
+                {dashboardStats.totalProperties}
+            </p>
+        </div>
+
+        <div>
+            <p className="text-sm text-gray-500">
+                Pending
+            </p>
+
+            <p className="text-3xl font-bold mt-2">
+                {dashboardStats.pendingProperties}
+            </p>
+        </div>
+
+        <div>
+            <p className="text-sm text-gray-500">
+                Approved
+            </p>
+
+            <p className="text-3xl font-bold mt-2">
+                {dashboardStats.approvedProperties}
+            </p>
+        </div>
+
+        <div>
+            <p className="text-sm text-gray-500">
+                Users
+            </p>
+
+            <p className="text-3xl font-bold mt-2">
+                {dashboardStats.totalUsers}
+            </p>
+        </div>
+
+    </div>
+
+</div>
+{/* 
+<div className="bg-white border border-gray-200 rounded-2xl p-6">
+
+    <h3 className="text-lg font-bold">
+        Recently Joined Users
+    </h3>
+
+    <div className="mt-5 divide-y divide-gray-100">
+
+        {recentUsers.map(user => (
+
+            <div
+                key={user._id}
+                className="flex justify-between items-center py-4"
+            >
+
+                <div>
+
+                    <p className="font-semibold">
+                        {user.fullname}
+                    </p>
+
+                    <p className="text-sm text-gray-500">
+                        {user.email}
+                    </p>
+
+                </div>
+
+                <span className="text-xs text-gray-400">
+                    Today
+                </span>
+
+            </div>
+
+        ))}
+
+    </div>
+
+</div> */}
+
+<div className="bg-gray-900 text-white rounded-2xl p-6">
+
+    <h2 className="text-2xl font-bold">
+
+        {pendingProperties.length} Properties waiting for review
+
+    </h2>
+
+    <p className="text-gray-300 mt-2">
+        Review them to keep listings up to date.
+    </p>
+
+    <Link
+        to="/admin/pending"
+        className="inline-flex mt-5 px-5 py-3 bg-white text-gray-900 rounded-xl font-semibold"
+    >
+        Review Now
+    </Link>
+
+</div>
 
         {/* ─── Dashboard Sections Grid ─── */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
-          {/* Left: Recently Submitted Properties (2/3 width) */}
+          {/* Left: Latest Property Submissions (2/3 width) */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-lg font-bold text-gray-900" style={{ fontFamily: "'Manrope', sans-serif" }}>
-                  Recently Submitted Properties
+                  Latest Property Submissions
                 </h2>
                 <p className="text-xs text-gray-400 mt-0.5">Properties awaiting admin validation</p>
               </div>
               <Link
                 to="/admin/pending"
-                className="flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors"
+                className="
+rounded-full
+border
+border-stone-300
+px-5
+py-2
+text-sm
+font-medium
+hover:bg-stone-100
+transition
+"
               >
                 Review Requests
                 <ChevronRight className="w-4 h-4" />
@@ -87,11 +324,17 @@ export default function Dashboard() {
             </div>
 
             {loading ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="grid grid-cols-3 sm:grid-cols-2 gap-8">
                 {Array.from({ length: 2 }).map((_, i) => <CardSkeleton key={i} />)}
               </div>
             ) : pendingProperties.length === 0 ? (
-              <div className="bg-white border border-gray-200 rounded-2xl">
+              <div className="
+bg-white
+rounded-3xl
+border
+border-stone-200
+p-10
+">
                 <EmptyState
                   icon={Building2}
                   title="All caught up!"
@@ -99,7 +342,7 @@ export default function Dashboard() {
                 />
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 {pendingProperties.slice(0, 2).map((prop) => (
                   <PropertyCard
                     key={prop._id}
@@ -120,7 +363,7 @@ export default function Dashboard() {
       {selectedProperty && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/35 backdrop-blur-xs" onClick={() => setSelectedProperty(null)} />
-          <div className="relative bg-white border border-gray-200 rounded-2xl shadow-xl w-full max-w-lg z-10 overflow-hidden animate-in zoom-in-95 duration-150 flex flex-col max-h-[90vh]">
+          <div className="relative bg-white border border-gray-200 rounded-3xl shadow-xl w-full max-w-lg z-10 overflow-hidden animate-in zoom-in-95 duration-150 flex flex-col max-h-[90vh]">
             
             {/* Header */}
             <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
@@ -136,7 +379,7 @@ export default function Dashboard() {
             </div>
 
             {/* Scrollable Body */}
-            <div className="overflow-y-auto p-6 space-y-5 text-left">
+            <div className="overflow-y-auto p-8 space-y-5 text-left">
               {/* Image */}
               <div className="h-48 rounded-xl overflow-hidden bg-gray-50 border border-gray-150">
                 <img
@@ -210,23 +453,13 @@ export default function Dashboard() {
                 onClick={() => setSelectedProperty(null)}
                 className="px-4 py-2 text-xs font-semibold text-gray-700 bg-white border border-gray-200 hover:bg-gray-100 rounded-xl transition-colors"
               >
-                Close View
+                Close
               </button>
             </div>
 
           </div>
         </div>
       )}
-
-            {/* Footer */}
-            <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end">
-              <button
-                onClick={() => setSelectedInquiry(null)}
-                className="px-4 py-2 text-xs font-semibold text-gray-700 bg-white border border-gray-200 hover:bg-gray-100 rounded-xl transition-colors"
-              >
-                Close View
-              </button>
-            </div>
     </AdminLayout>
   );
 }

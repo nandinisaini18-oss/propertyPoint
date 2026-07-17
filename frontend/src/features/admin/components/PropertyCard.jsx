@@ -10,11 +10,8 @@ import { useSelector } from "react-redux";
 export default function PropertyCard({ property, onApprove, onReject, onView, showGallery = false }) {
   const favorites = useSelector(state => state.auth.favorites);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  console.log("Property:", property);
-console.log("Images:", property.propertyImages);
-console.log("First Image:", property.propertyImages?.[0]);
 
-  const images = property.propertyimage || [];
+  const images = property.propertyImages || [];
   const hasMultipleImages = images.length > 1;
 
   const nextImage = (e) => {
@@ -64,13 +61,24 @@ console.log(
     isFavorite(property._id)
 );
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden flex flex-col hover:shadow-md transition-all duration-300 group">
+    <div className="
+bg-white
+rounded-3xl
+overflow-hidden
+border
+border-stone-200
+shadow-sm
+hover:shadow-xl
+hover:-translate-y-1
+transition-all
+duration-300
+group
+">
       {/* Photo / Photo Gallery Section */}
-      <div className="relative h-56 overflow-hidden bg-gray-100 flex-shrink-0">
+      <div className="relative h-64 overflow-hidden bg-gray-100 flex-shrink-0">
         <img
-          src={property.propertyImages?.[0]}
-          alt={property.title}
-          className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
+            src={images[currentImageIndex]}
+            alt={property.title}
         />
 
         {/* Gallery Overlay Navigation */}
@@ -89,7 +97,22 @@ console.log(
               <ChevronRight className="w-4.5 h-4.5" />
             </button>
             <button
-                className="property-card__favorite"
+                className="
+absolute
+top-5
+right-5
+w-11
+h-11
+rounded-full
+bg-white/90
+backdrop-blur
+shadow-md
+flex
+items-center
+justify-center
+transition
+hover:scale-110
+"
                 onClick={() => toggleFavorite(property._id)}
             >
                 {isFavorite(property._id)
@@ -103,29 +126,42 @@ console.log(
         )}
 
         {/* Badges Overlay */}
-        <div className="absolute top-3 left-3 z-10">
+        <div className="absolute top-5 left-5 z-10">
           <StatusBadge status={property.approvalStatus || property.status} />
         </div>
 
         {/* Shadow Overlay */}
         <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-black/55 to-transparent pointer-events-none" />
-        <p className="absolute bottom-3 left-3.5 text-white text-base font-extrabold tracking-tight">
+        <p className="
+absolute
+bottom-4
+left-5
+text-white
+text-2xl
+font-bold
+tracking-tight
+">
          ₹ {property.price?.toLocaleString("en-IN")}
         </p>
       </div>
 
       {/* Info Content */}
-      <div className="p-5 flex flex-col flex-1 gap-4">
+      <div className="p-6 flex flex-col flex-1 gap-4">
         {/* Title and Category/Location */}
         <div className="space-y-1.5">
           <h3
-            className="font-bold text-gray-900 text-sm leading-snug line-clamp-1 cursor-pointer hover:text-blue-600 transition-colors"
+            className="font-bold text-gray-900 text-xl
+font-semibold
+leading-tight
+text-stone-900
+hover:text-black leading-snug line-clamp-1 cursor-pointer hover:text-blue-600 transition-colors"
             style={{ fontFamily: "'Manrope', sans-serif" }}
             onClick={() => onView && onView(property)}
           >
             {property.title}
           </h3>
-          <div className="flex flex-wrap gap-x-3 gap-y-1 text-[11px] text-gray-500">
+          <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm
+text-stone-500 text-gray-500">
             <span className="flex items-center gap-1">
               <Tag className="w-3.5 h-3.5 text-gray-400" strokeWidth={1.8} />
               {property.category}
@@ -143,30 +179,34 @@ console.log(
         </div>
 
         {/* Bedrooms, Bathrooms, Area Row */}
-        <div className="grid grid-cols-3 gap-2">
-          {[
-            { Icon: Maximize2, val: `${property.area} sqft` },
-            { Icon: Bed, val: `${property.bedrooms} BHK` },
-            { Icon: Bath, val: `${property.bathrooms} Bath` },
-          ].map(({ Icon, val }, i) => (
-            <div
-              key={i}
-              className="flex flex-col items-center bg-gray-50 border border-gray-150 rounded-xl py-2 gap-0.5"
-            >
-              <Icon className="w-3.5 h-3.5 text-gray-400" strokeWidth={1.8} />
-              <span className="text-[10px] font-bold text-gray-600 text-center leading-none mt-1">
-                {val}
-              </span>
-            </div>
-          ))}
-        </div>
+        <div className="flex items-center justify-between">
+
+<div className="flex items-center gap-2">
+<Bed className="w-4 h-4 text-stone-400"/>
+<span>{property.bedrooms} BHK</span>
+</div>
+
+<div className="flex items-center gap-2">
+<Bath className="w-4 h-4 text-stone-400"/>
+<span>{property.bathrooms}</span>
+</div>
+
+<div className="flex items-center gap-2">
+<Maximize2 className="w-4 h-4 text-stone-400"/>
+<span>{property.area} sqft</span>
+</div>
+
+</div>
 
         {/* Seller Card */}
         {property.seller && (
           <div className="bg-gray-50 border border-gray-100 rounded-xl p-3 text-left">
             <p className="text-[9px] font-bold uppercase tracking-wider text-gray-400 mb-1.5">Seller Information</p>
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center flex-shrink-0 text-xs font-bold text-gray-600">
+              <div className="w-10 h-10
+rounded-full
+shadow-md rounded-full bg-stone-100
+hover:bg-stone-200 flex items-center justify-center flex-shrink-0 text-xs font-bold text-gray-600">
                 {property.seller.charAt(0)}
               </div>
               <div className="min-w-0 flex-1">
@@ -191,14 +231,16 @@ console.log(
         )}
 
         {/* Bottom Actions */}
-        <div className="flex gap-2 mt-auto pt-2 border-t border-gray-100">
+        <div className="flex gap-2 mt-auto pt-2 border-t border-stone-200">
           {onView && (
             <button
               onClick={() => onView(property)}
               className="flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold
-                bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-all duration-200"
+                bg-stone-100
+hover:bg-stone-200 hover:bg-stone-100
+hover:bg-stone-200 text-gray-700 rounded-2xl transition-all duration-200"
             >
-              <Eye className="w-3.5 h-3.5" />
+              <Eye className="w-3.5 h-11" />
               Details
             </button>
           )}
@@ -207,7 +249,8 @@ console.log(
             <button
               onClick={() => onApprove(property._id)}
               className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-bold
-                bg-blue-600 hover:bg-blue-700 text-white rounded-xl shadow-sm hover:shadow transition-all duration-200 active:scale-[0.98]"
+                bg-stone-900
+hover:bg-black hover:bg-blue-700 text-white rounded-2xl shadow-sm hover:shadow transition-all duration-200 active:scale-[0.98]"
             >
               Approve
             </button>
@@ -217,7 +260,8 @@ console.log(
             <button
               onClick={() => onReject(property._id)}
               className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold
-                bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-xl transition-all duration-200 active:scale-[0.98]"
+                bg-stone-100
+hover:bg-stone-200 hover:bg-gray-300 text-gray-700 rounded-xl transition-all duration-200 active:scale-[0.98]"
             >
               Reject
             </button>
